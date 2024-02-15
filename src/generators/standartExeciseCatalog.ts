@@ -64,11 +64,14 @@ const Legs = {
   defaultRPE: 8.5,
 };
 
-const standartExerciseCatalog = [
+const placeHolderExercises = [
   {
     name: "Placeholder",
     category: placeholder,
-  },
+  }
+]
+
+const squatExercises = [
   {
     name: "Lowbar - Squat",
     category: Squat,
@@ -102,6 +105,9 @@ const standartExerciseCatalog = [
     maxFactor: 2,
     category: Squat,
   },
+]
+
+const benchExercises = [
   {
     name: "Comp. Bench",
     category: Bench,
@@ -140,6 +146,9 @@ const standartExerciseCatalog = [
     maxFactor: 1.1,
     category: Bench,
   },
+]
+
+const deadliftExercises = [
   {
     name: "Conventional",
     category: Deadlift,
@@ -172,7 +181,10 @@ const standartExerciseCatalog = [
     name: "Stiff-Leg DL",
     maxFactor: 0.825,
     category: Deadlift,
-  },
+  }
+]
+
+const overheadpressExercises = [
   {
     name: "Overheadpress",
     category: Overheadpress,
@@ -188,7 +200,10 @@ const standartExerciseCatalog = [
   {
     name: "Shoulderpress",
     category: Overheadpress,
-  },
+  }
+]
+
+const chestExercises = [
   {
     name: "Dips",
     category: Chest,
@@ -200,8 +215,10 @@ const standartExerciseCatalog = [
   {
     name: "Deficit Pushups",
     category: Chest,
-  },
+  }
+]
 
+const backExercises = [
   {
     name: "Pull-Up",
     category: Back,
@@ -225,7 +242,10 @@ const standartExerciseCatalog = [
   {
     name: "Chestsupported Row",
     category: Back,
-  },
+  }
+]
+
+const shoulderExercises = [
   {
     name: "Reverse Flyes",
     category: Shoulder,
@@ -245,7 +265,10 @@ const standartExerciseCatalog = [
   {
     name: "Front-Raises",
     category: Shoulder,
-  },
+  }
+]
+
+const tricepExercises = [
   {
     name: "Triceps-Extensions",
     category: Triceps,
@@ -262,7 +285,9 @@ const standartExerciseCatalog = [
     name: "Diamond Pushups",
     category: Triceps,
   },
+]
 
+const bicepsExercises = [
   {
     name: "Biceps-Curls",
     category: Biceps,
@@ -274,7 +299,10 @@ const standartExerciseCatalog = [
   {
     name: "Hammer Curls",
     category: Biceps,
-  },
+  }
+]
+
+const legExercises = [
   {
     name: "Hip Thrusts",
     category: Legs,
@@ -304,7 +332,19 @@ const standartExerciseCatalog = [
   {
     name: "Hip Abduction",
     category: Legs,
-  },
-];
+  }
+]
 
-export default standartExerciseCatalog;
+export {
+  placeHolderExercises,
+  squatExercises,
+  benchExercises,
+  deadliftExercises,
+  overheadpressExercises,
+  chestExercises,
+  backExercises,
+  shoulderExercises,
+  bicepsExercises,
+  tricepExercises,
+  legExercises
+}

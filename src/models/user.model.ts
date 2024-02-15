@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
   customPlans: [TrainingBlock.schema],
   trainingSessions: [TrainingSession.schema],
 
-  /* exercises: [Exercise.schema],
+  exercises: [Exercise.schema],
   squatExercises: [Exercise.schema],
   benchExercises: [Exercise.schema],
   deadliftExercises: [Exercise.schema],
@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   shoulderExercises: [Exercise.schema],
   tricepsExercises: [Exercise.schema],
   bicepsExercises: [Exercise.schema],
-  legExercises: [Exercise.schema], */
+  legExercises: [Exercise.schema],
 
   resetToken: String,
   resetTokenExpiration: Number,
