@@ -1,0 +1,185 @@
+<% const exerciseCategories = exercisesData?.exerciseCategories; %>
+<% const categorizedExercises = exercisesData?.categorizedExercises; %>
+<% const maxFactors = exercisesData?.maxFactors; %>
+<% const categoryPauseTimes = exercisesData?.categoryPauseTimes; %>
+<% const defaultRepSchemeByCategory = exercisesData?.defaultRepSchemeByCategory; %>
+<% const maxExercises=Math.max(...exerciseCategories.map(category => categorizedExercises[category].length)); %>
+
+<div class="container pt-4">
+
+    <form action="/exercises?_method=PATCH" method="POST">
+        <% for (let categoryIndex = 1; categoryIndex < exerciseCategories.length; categoryIndex++) { %>
+            <% const category=exerciseCategories[categoryIndex]; %>
+            <table class="table mb-5">
+                <thead>
+                  <tr>
+                    <th scope="col"><%= category %></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% const exercises = categorizedExercises[category]; %>
+                    <% for (let exerciseIndex = 0; exerciseIndex < maxExercises; exerciseIndex++) { %>
+                        <tr> 
+                            <td data-cell="<%= category %>"><input type="text" class="transparent-input"
+                                name="<%= categoryIndex %>_<%= exerciseIndex %>_exercise"
+                                value="<%= exercises[exerciseIndex] || '' %>" style="text-align: left; padding: 0;">
+      
+                                <!-- für max Factors kommt aber erst später -->
+    <!--                           <% if (maxFactors[exercises[exerciseIndex]] || maxFactors[exercises[exerciseIndex]] === 0) { %>
+                                <div class="max-factor-input flex" style="display: none">
+                                  <label class="max-factor-label" for="maxFactorInput_<%= categoryIndex %>_<%= exerciseIndex %>">Faktor vom Max</label>
+                                  <input class="max-factor" name="exercise_<%= categoryIndex %>_<%= exerciseIndex %>_max_factor"
+                                     id="maxFactorInput_<%= categoryIndex %>_<%= exerciseIndex %>" type="number"
+                                      min="0" step="0.025" max="3" value="<%= maxFactors[exercises[exerciseIndex]] || "0" %>">
+                                </div>
+                                <% } %> -->
+                            </td>
+                            <!--categoryindex 0- 11 || exerciseIndex 0 - 9 -->
+                          </tr>
+                          <% if (exerciseIndex===maxExercises - 1) { %> <!--hier eine neue table hinzufügen-->
+                            <tr class="top-border">
+                              <td data-cell="Rest-time">
+                                <div>
+                                  <!--TODO: unique names in der route verarbeiten-->
+                                  <select name="<%= categoryIndex %>_categoryPauseTimeSelect"
+                                    class="transparent-input">
+                                    <option value="60" <%=categoryPauseTimes[category]===60 ? "selected" : "" %>>1 Minute
+                                    </option>
+                                    <option value="90" <%=categoryPauseTimes[category]===90 ? "selected" : "" %>>1 Minute 30s
+                                    </option>
+                                    <option value="120" <%=categoryPauseTimes[category]===120 ? "selected" : "" %>>2 Minuten
+                                    </option>
+                                    <option value="150" <%=categoryPauseTimes[category]===150 ? "selected" : "" %>>2 Minuten
+                                      30s
+                                    </option>
+                                    <option value="180" <%=categoryPauseTimes[category]===180 ? "selected" : "" %>>3 Minuten
+                                    </option>
+                                    <option value="210" <%=categoryPauseTimes[category]===210 ? "selected" : "" %>>3 Minuten
+                                      30s
+                                    </option>
+                                    <option value="240" <%=categoryPauseTimes[category]===240 ? "selected" : "" %>>4 Minuten
+                                    </option>
+                                    <option value="270" <%=categoryPauseTimes[category]===270 ? "selected" : "" %>>4 Minuten
+                                      30s
+                                    </option>
+                                    <option value="300" <%=categoryPauseTimes[category]===300 ? "selected" : "" %>>5 Minuten
+                                    </option>
+                                  </select>
+                                </div>
+                              </td>
+                            </tr>
+      
+                            <tr>
+                              <td data-cell="sets">
+                                <div>
+                                  <!--TODO: unique names in der route verarbeiten-->
+                                  <select name="<%= categoryIndex %>_categoryDefaultSetSelect"
+                                    class="transparent-input">
+                                    <option value="2" <%=defaultRepSchemeByCategory[category].defaultSets===2 ? "selected"
+                                      : "" %>>2 Sets
+                                    </option>
+                                    <option value="3" <%=defaultRepSchemeByCategory[category].defaultSets===3 ? "selected"
+                                      : "" %>>3 Sets
+                                    </option>
+                                    <option value="4" <%=defaultRepSchemeByCategory[category].defaultSets===4 ? "selected"
+                                      : "" %>>4 Sets
+                                    </option>
+                                    <option value="5" <%=defaultRepSchemeByCategory[category].defaultSets===5 ? "selected"
+                                      : "" %>>5 Sets
+                                    </option>
+                                    <option value="6" <%=defaultRepSchemeByCategory[category].defaultSets===6 ? "selected"
+                                      : "" %>>6 Sets
+                                    </option>
+                                  </select>
+                                </div>
+                              </td>
+                            </tr>
+      
+                            <tr>
+                              <td data-cell="reps">
+                                <div>
+                                  <!--TODO: unique names in der route verarbeiten-->
+                                  <select name="<%= categoryIndex %>_categoryDefaultRepSelect"
+                                    class="transparent-input">
+                                    <option value="3" <%=defaultRepSchemeByCategory[category].defaultReps===3 ? "selected"
+                                      : "" %>>3 Reps
+                                    </option>
+                                    <option value="4" <%=defaultRepSchemeByCategory[category].defaultReps===4 ? "selected"
+                                      : "" %>>4 Reps
+                                    </option>
+                                    <option value="5" <%=defaultRepSchemeByCategory[category].defaultReps===5 ? "selected"
+                                      : "" %>>5 Reps
+                                    </option>
+                                    <option value="6" <%=defaultRepSchemeByCategory[category].defaultReps===6 ? "selected"
+                                      : "" %>>6 Reps
+                                    </option>
+                                    <option value="7" <%=defaultRepSchemeByCategory[category].defaultReps===7 ? "selected"
+                                      : "" %>>7 Reps
+                                    </option>
+                                    <option value="8" <%=defaultRepSchemeByCategory[category].defaultReps===8 ? "selected"
+                                      : "" %>>8 Reps
+                                    </option>
+                                    <option value="9" <%=defaultRepSchemeByCategory[category].defaultReps===9 ? "selected"
+                                      : "" %>>9 Reps
+                                    </option>
+                                    <option value="10" <%=defaultRepSchemeByCategory[category].defaultReps===10 ? "selected"
+                                      : "" %>>10 Reps
+                                    </option>
+                                    <option value="11" <%=defaultRepSchemeByCategory[category].defaultReps===11 ? "selected"
+                                      : "" %>>11 Reps
+                                    </option>
+                                    <option value="12" <%=defaultRepSchemeByCategory[category].defaultReps===12 ? "selected"
+                                      : "" %>>12 Reps
+                                    </option>
+                                  </select>
+                                </div>
+            </div>
+            </td>
+            </tr>
+      
+            <tr>
+              <td data-cell="RPE">
+                <div>
+                  <!--TODO: unique names in der route verarbeiten-->
+                  <select name="<%= categoryIndex %>_categoryDefaultRPESelect"
+                    class="transparent-input">
+                    <option value="6" <%=defaultRepSchemeByCategory[category].defaultRPE===6 ? "selected" : "" %>>RPE 6
+                    </option>
+                    <option value="6.5" <%=defaultRepSchemeByCategory[category].defaultRPE===6.5 ? "selected" : "" %>>RPE 6.5
+                    </option>
+                    <option value="7" <%=defaultRepSchemeByCategory[category].defaultRPE===7 ? "selected" : "" %>>RPE 7
+                    </option>
+                    <option value="7.5" <%=defaultRepSchemeByCategory[category].defaultRPE===7.5 ? "selected" : "" %>>RPE 7.5
+                    </option>
+                    <option value="8" <%=defaultRepSchemeByCategory[category].defaultRPE===8 ? "selected" : "" %>>RPE 8
+                    </option>
+                    <option value="8.5" <%=defaultRepSchemeByCategory[category].defaultRPE===8.5 ? "selected" : "" %>>RPE 8.5
+                    </option>
+                    <option value="9" <%=defaultRepSchemeByCategory[category].defaultRPE===9 ? "selected" : "" %>>RPE 9
+                    </option>
+                    <option value="9.5" <%=defaultRepSchemeByCategory[category].defaultRPE===9.5 ? "selected" : "" %>>RPE 9
+                    </option>
+                    <option value="10" <%=defaultRepSchemeByCategory[category].defaultRPE===10 ? "selected" : "" %>>RPE 10
+                    </option>
+                  </select>
+                </div>
+                </div>
+              </td>
+            </tr>
+      
+            <% } %>
+                        <% } %>
+                </tbody>
+              </table>
+    
+            <% } %>
+
+            <input type="submit" class="btn btn-dark">
+            <button class="btn btn-outline-dark" id="reset-btn">Reset</button>
+
+    </form>
+</div>
+
+<script type="module" src="/ts/exercises.js"></script>
+
+

@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.logo {
+  width: 3rem;
+  height: 100%;
+  object-fit: contain;
+}
+
+.transparent-input {
+  border: none;
+  background-color: transparent;
+  width: 100%;
+}
+
+.transparent-input:focus {
+  border: none;
+  outline: none;
+}
+
+/* scrollbar */
+
+  /* Für Webkit-basierte Browser wie Chrome und Safari */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #414141;
+  }
+
+
+  /* Utility */
+
+  .visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    /* added line */
+    border: 0;
+  }
+
+  .letter-spacing-1 {
+    letter-spacing: 4.75px;
+  }
+  
+  .letter-spacing-2 {
+    letter-spacing: 2.7px;
+  }
+  
+  .letter-spacing-3 {
+    letter-spacing: 2.35px;
+  }
+
+  .letter-spacing-4 {
+    letter-spacing: 1px;
+  }
+
+  .top-border {
+    border-top: 2px solid rgb(224, 224, 224);
+  }
+  
+
