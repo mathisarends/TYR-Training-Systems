@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
   customPlans: [TrainingBlock.schema],
   trainingSessions: [TrainingSession.schema],
 
+  placeholderExercises: [Exercise.schema],
   exercises: [Exercise.schema],
   squatExercises: [Exercise.schema],
   benchExercises: [Exercise.schema],

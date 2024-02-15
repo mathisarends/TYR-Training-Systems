@@ -311,12 +311,10 @@ const legExercises = [
     name: "Hyperextensions",
     category: Legs,
   },
-
   {
     name: "Leg Extension",
     category: Legs,
   },
-
   {
     name: "Leg Curl",
     category: Legs,

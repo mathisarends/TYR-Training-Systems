@@ -3,7 +3,19 @@ import userData from "../src/models/userData.model.js";
 
 import bcrypt from "bcrypt";
 
-import standartExerciseCatalog from "../src/generators/standartExeciseCatalog.js";
+import { 
+  placeHolderExercises, 
+  squatExercises, 
+  benchExercises, 
+  deadliftExercises, 
+  overheadpressExercises, 
+  chestExercises,
+  backExercises, 
+  shoulderExercises, 
+  bicepsExercises, 
+  tricepExercises, 
+  legExercises
+} from "../src/generators/standartExeciseCatalog.js";
 import templateTrainingPlans from "../src/generators/templateTrainingPlans.js";
 
 import { Request, Response } from "express";
@@ -12,7 +24,7 @@ import passwordValidator from "password-validator";
 import { ObjectId } from "mongodb";
 const passwordSchema = new passwordValidator();
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "PRODUCTION") {
   console.log("here we are");
   passwordSchema // length of 8, one capital letter, one number no spaces
     .is()
@@ -111,7 +123,18 @@ export async function handleRegisterPost(req: Request, res: Response) {
       name: req.body.username,
       email: req.body.email,
       passwordHash: hashedPassword,
-      exercises: standartExerciseCatalog,
+
+      placeholderExercises: placeHolderExercises,
+      squatExercises: squatExercises,
+      benchExercises: benchExercises,
+      deadliftExercises: deadliftExercises,
+      overheadpressExercises: overheadpressExercises,
+      backExercises: backExercises,
+      chestExercises: chestExercises,
+      shoulderExercises: shoulderExercises,
+      bicepsExercises: bicepsExercises,
+      tricepExercises: tricepExercises,
+      legExercises: legExercises,
     });
 
     await newUser.save();

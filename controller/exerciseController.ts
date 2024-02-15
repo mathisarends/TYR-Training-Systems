@@ -1,22 +1,35 @@
-import User from "../src/models/user.model.js";
-import standartExerciseCatalog from "../src/generators/standartExeciseCatalog.js"; // for reset
-import ExerciseDocument from "../src/models/exercise.types.js";
 import { Request, Response } from "express";
 import { UserInterface } from "../src/models/user.types.js";
 import { Exercise } from "../src/models/exercise.types.js";
 import { CategoryExercises } from "../interfaces/CategoryExercises.js";
+
+import { ApiData } from "../interfaces/ApiData.js";
+
+// for reset
+import {
+  placeHolderExercises,
+  squatExercises,
+  benchExercises,
+  deadliftExercises,
+  overheadpressExercises,
+  chestExercises,
+  backExercises,
+  shoulderExercises,
+  bicepsExercises,
+  tricepExercises,
+  legExercises,
+} from "../src/generators/standartExeciseCatalog.js";
+import { ExerciseInterface } from "../src/models/trainingDay.types.js";
 
 export async function showUserExercises(req: Request, res: Response) {
   try {
     const user = res.locals.user;
     const exercisesData = prepareExercisesData(user);
 
-    console.log(exercisesData);
-
     res.render("exercises", {
       defaultLayout: true,
       carousel: false,
-      exercisesData
+      exercisesData,
     });
   } catch (error) {
     console.log(
@@ -29,8 +42,21 @@ export async function showUserExercises(req: Request, res: Response) {
 export async function resetUserExercises(req: Request, res: Response) {
   try {
     const user = res.locals.user;
-    user.exercises = standartExerciseCatalog;
-    await user.save({ overwrite: true });
+
+    // reset all exercises per category
+    (user.placeholderExercises = placeHolderExercises),
+      (user.squatExercises = squatExercises),
+      (user.benchExercises = benchExercises),
+      (user.deadliftExercises = deadliftExercises),
+      (user.overheadpressExercises = overheadpressExercises),
+      (user.backExercises = backExercises),
+      (user.chestExercises = chestExercises),
+      (user.shoulderExercises = shoulderExercises),
+      (user.bicepsExercises = bicepsExercises),
+      (user.tricepExercises = tricepExercises),
+      (user.legExercises = legExercises),
+      await user.save({ overwrite: true });
+
     console.log("Übungskatalog zurückgesetzt!");
     res.status(200).json({});
   } catch (error) {
@@ -45,47 +71,110 @@ export async function resetUserExercises(req: Request, res: Response) {
 export async function patchUserExercises(req: Request, res: Response) {
   try {
     const user: UserInterface = res.locals.user;
-    const changedData: Record<string, string>  = req.body;
-    const exercises: any = user.exercises; // TODO: das hier bitte typisieren
+    const changedData: ApiData = req.body;
 
-    const changedCategoriesArray: string[] = []; // keeping track of already asigned categories
-    const exercisesByCategory: CategoryExercises = {}; // save collection of arrays from categories that were changed with this patch
+    // eine kategorie speichert ein array von indexes zum ersetzen von feldern im array und 
+    // newValues hält dann den string
+    const changedCategoriesMap: { [category: string]: {fieldNames: string[]; newValues: any[] } } = {};
 
-    // Iteriere über alle Einträge im req.body => finde erstmal die betreffenden categorien raus
     Object.entries(changedData).forEach(([fieldName, newValue]) => {
-      //console.log(`Feld ${fieldName} wurde auf ${newValue} geändert.`);
+      console.log(`${fieldName} has been changed to ${newValue}`);
+
       const categoryIndex = parseInt(fieldName.charAt(0));
       const category = getAssociatedCategoryByIndex(categoryIndex);
 
-      if (!changedCategoriesArray.includes(category)) { // dont add category twice
-        changedCategoriesArray.push(category);
-        exercisesByCategory[category] = getExercisesByCategory(exercises, category); // what the fuck
+      // if there is now entry in the map create a new one
+      if (!changedCategoriesMap[category]) {
+        changedCategoriesMap[category] = { fieldNames: [], newValues: [] };
       }
+
+      changedCategoriesMap[category].newValues.push(newValue);
+      changedCategoriesMap[category].fieldNames.push(fieldName);
+
     });
 
-    Object.entries(changedData).forEach(([fieldName, newValue]) => {
-      if (fieldName.endsWith("exercise")) {
+    Object.entries(changedCategoriesMap).forEach(([category, { fieldNames, newValues }]) => {
+      const userExerciseField = getExerciseFieldByCategory(category, user);
 
-      } else if (fieldName.endsWith("Select")) {
+      fieldNames.forEach((fieldName, index) => {
+        if (fieldName.endsWith("exercise")) { // means the name was changed
 
-      }
-    })
+          const exerciseIndex = parseInt(fieldNames[index].charAt(2));
+          userExerciseField[exerciseIndex].name = newValues[index];
 
-    changedCategoriesArray.forEach((category) => {
-      console.log(category);
-    })
+        } else { // means a field which is applied for all exercises of the category
+              // was change which means we have to iterate over all fields
 
-  } catch (err) {
-    console.log(
-      "Es ist ein Fehler beim Patchen der Exercises aufgetreten." + err
-    );
+              // TODO: implement that new exercise may be added!!!
+
+          userExerciseField.forEach((exerciseField: Exercise) => {
+
+            switch (true) {
+              case fieldName.endsWith("categoryPauseTimeSelect"):
+                exerciseField.category.pauseTime = newValues[index];
+                break;
+              case fieldName.endsWith("categoryDefaultSetSelect"):
+                exerciseField.category.defaultSets = newValues[index];
+                break;
+              case fieldName.endsWith("categoryDefaultRepSelect"):
+                exerciseField.category.defaultReps = newValues[index];
+                break;
+              case fieldName.endsWith("categoryDefaultRPESelect"):
+                exerciseField.category.defaultRPE = newValues[index];
+                break;
+              default:
+                // do nothing here
+                break;
+            }
+
+          });
+          
+         }
+      })
+
+    });
+
+    await user.save();
+
+    res.status(200).json({ message: "Erfolgreich aktualisiert." });
+  } catch (error) {
+    console.error("An error occurred while trying to patch user exercises", error);
+    res.status(500).json({ message: "Interner Serverfehler beim Aktualisieren der Benutzerübungen." });
+  }
+}
+
+// auch mit dieser funktion stimmt irgendwas nicht ausführlich testen bitte ^^
+function getExerciseFieldByCategory(category: string, user: any) {
+  switch (category) {
+    case "Squat":
+      return user.squatExercises;
+    case "Bench":
+      return user.benchExercises;
+    case "Deadlift":
+      return user.deadliftExercises;
+    case "Overheadpress":
+      return user.overheadpressExercises;
+    case "Chest":
+      return user.chestExercises;
+    case "Back":
+      return user.backExercises;
+    case "Shoulder":
+      return user.shoulderExercises;
+    case "Triceps":
+      return user.tricepsExercises;
+    case "Biceps":
+      return user.bicepsExercises;
+    case "Leg":
+      return user.legExercises;
+    default:
+      // handle default case or throw an error
+      throw new Error(`Unknown category: ${category}`);
   }
 }
 
 function getExercisesByCategory(exercises: Exercise[], category: string) {
-  return exercises.filter(exercise => exercise.category.name === category);
+  return exercises.filter((exercise) => exercise.category.name === category);
 }
-
 
 function getNumberOfRequestedExercises(
   exerciseCategoriesLength: number,
@@ -130,102 +219,100 @@ function createUserExerciseObject(
 }
 
 function getAssociatedCategoryByIndex(index: number) {
-  let category = "";
 
   if (index === 0) {
-    category = "- Bitte Auswählen -";
+    return "- Bitte Auswählen -";
   } else if (index === 1) {
-    category = "Squat";
+    return "Squat";
   } else if (index === 2) {
-    category = "Bench";
+    return "Bench";
   } else if (index === 3) {
-    category = "Deadlift";
+    return "Deadlift";
   } else if (index === 4) {
-    category = "Overheadpress";
+    return"Overheadpress";
   } else if (index === 5) {
-    category = "Chest";
+    return "Back";
   } else if (index === 6) {
-    category = "Back";
+    return "Chest";
   } else if (index === 7) {
-    category = "Shoulder";
+    return "Shoulder";
   } else if (index === 8) {
-    category = "Triceps";
+    return "Triceps";
   } else if (index === 9) {
-    category = "Biceps";
+    return "Biceps";
   } else if (index === 10) {
-    category = "Legs";
+    return "Legs";
   } else {
-    console.log("ES IST EIN FEHLER AUFGETRETEN:");
+    throw new Error("Category is not valid");
   }
-  return category;
 }
 
-// in order to show the exercise data of the user
 export function prepareExercisesData(user: any) {
-  // user schema noch definieren
-  const predefinedExercises = user.exercises;
-
-  const exerciseCategories = [
-    ...new Set(
-      predefinedExercises.map(
-        (exercise: ExerciseDocument) => exercise.category.name
-      )
-    ),
-  ];
-
+  //TODO
+  const categorizedExercises: Record<string, string[]> = {};
   const categoryPauseTimes: Record<string, number> = {};
   const maxFactors: Record<string, number | undefined> = {};
-
-  /*     const categoryPauseTimes = {};
-    const maxFactors = {}; */
-
-  predefinedExercises.forEach((exercise: ExerciseDocument) => {
-    const categoryName = exercise.category.name;
-    const pauseTime = exercise.category.pauseTime;
-    if (!categoryPauseTimes[categoryName]) {
-      categoryPauseTimes[categoryName] = pauseTime;
-    }
-    maxFactors[exercise.name] = exercise.maxFactor;
-  });
-
   const defaultRepSchemeByCategory: Record<
     string,
     { defaultSets: number; defaultReps: number; defaultRPE: number }
   > = {};
-  predefinedExercises.forEach((exercise: ExerciseDocument) => {
-    const categoryName = exercise.category.name;
-    const defaultSets = exercise.category.defaultSets;
-    const defaultReps = exercise.category.defaultReps;
-    const defaultRPE = exercise.category.defaultRPE;
 
-    if (!defaultRepSchemeByCategory[categoryName]) {
-      defaultRepSchemeByCategory[categoryName] = {
-        defaultSets: defaultSets,
-        defaultReps: defaultReps,
-        defaultRPE: defaultRPE,
-      };
-    }
-  });
+  const allCategorysArray = [
+    user.placeholderExercises,
+    user.squatExercises,
+    user.benchExercises,
+    user.deadliftExercises,
+    user.overheadpressExercises,
+    user.backExercises,
+    user.chestExercises,
+    user.shoulderExercises,
+    user.bicepsExercises,
+    user.tricepExercises,
+    user.legExercises,
+  ];
 
-  const categorizedExercises: Record<string, string[]> =
-    predefinedExercises.reduce(
-      (acc: Record<string, string[]>, exercise: ExerciseDocument) => {
+  for (const categoryArray of allCategorysArray) {
+    const exercises = Array.isArray(categoryArray)
+      ? categoryArray
+      : [categoryArray]; // Umwandelung in Array für iteration
+
+    for (const exercise of exercises) {
+
+      if (exercise && exercise.category.name) {
         const categoryName = exercise.category.name;
-        if (!acc[categoryName]) {
-          acc[categoryName] = [];
+
+        if (!categorizedExercises[categoryName]) {
+          categorizedExercises[categoryName] = [];
         }
-        acc[categoryName].push(exercise.name);
-        return acc;
-      },
-      {}
-    );
+        categorizedExercises[categoryName].push(exercise.name);
+
+        if (!categoryPauseTimes[categoryName]) {
+          categoryPauseTimes[categoryName] = exercise.category.pauseTime;
+        }
+
+        // Max Factors pro Übung
+        maxFactors[exercise.name] = exercise.maxFactor;
+
+        if (!defaultRepSchemeByCategory[categoryName]) {
+          defaultRepSchemeByCategory[categoryName] = {
+            defaultSets: exercise.category.defaultSets,
+            defaultReps: exercise.category.defaultReps,
+            defaultRPE: exercise.category.defaultRPE,
+          };
+        }
+        // TODO: wo kommt das her?
+      } else {
+        console.error("Exercise or exercise category is undefined:", exercise);
+      }
+    }
+  }
 
   return {
     userID: user.id,
-    exerciseCategories: exerciseCategories,
-    categoryPauseTimes: categoryPauseTimes,
-    categorizedExercises: categorizedExercises,
-    defaultRepSchemeByCategory: defaultRepSchemeByCategory,
-    maxFactors: maxFactors,
+    exerciseCategories: Object.keys(categorizedExercises),
+    categoryPauseTimes,
+    categorizedExercises,
+    defaultRepSchemeByCategory,
+    maxFactors,
   };
 }
