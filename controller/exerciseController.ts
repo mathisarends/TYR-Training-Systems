@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { UserInterface } from "../src/models/user.types.js";
 import { Exercise, ExerciseCategory } from "../src/models/exercise.types.js";
-import { CategoryExercises } from "../interfaces/CategoryExercises.js";
 
 import { ApiData } from "../interfaces/ApiData.js";
+import { ExerciseCategories } from "../interfaces/ExerciseCategoriesEnum.js";
 
 // for reset
 import {
@@ -20,6 +20,20 @@ import {
   legExercises,
 } from "../src/generators/standartExeciseCatalog.js";
 
+/**
+ * Renders the user's exercises on the exercises page.
+ *
+ * This function prepares the exercises data for rendering and renders the 'exercises' page with the provided data.
+ *
+ * @async
+ * @param {Request} req - The Express Request object.
+ * @param {Response} res - The Express Response object.
+ * @throws {Error} Throws an error if there is an issue during the rendering process.
+ *
+ * @example
+ * // Example usage in an Express route:
+ * app.get('/user/exercises', showUserExercises);
+ */
 export async function showUserExercises(req: Request, res: Response) {
   try {
     const user = res.locals.user;
@@ -38,6 +52,20 @@ export async function showUserExercises(req: Request, res: Response) {
   }
 }
 
+/**
+ * Resets the user's exercises to predefined placeholder exercises.
+ *
+ * This function resets the user's exercises for each category to predefined placeholder exercises.
+ *
+ * @async
+ * @param {Request} req - The Express Request object.
+ * @param {Response} res - The Express Response object.
+ * @throws {Error} Throws an error if there is an issue during the reset process.
+ *
+ * @example
+ * // Example usage in an Express route:
+ * app.post('/user/exercises/reset', resetUserExercises);
+ */
 export async function resetUserExercises(req: Request, res: Response) {
   try {
     const user = res.locals.user;
@@ -66,6 +94,7 @@ export async function resetUserExercises(req: Request, res: Response) {
     res.status(500).json({});
   }
 }
+
 /**
  * Maps changed data to categories based on the provided API data.
  *
@@ -137,8 +166,6 @@ function processExerciseChanges(
   } else { // means a field which is applied for all exercises of the category
         // was change which means we have to iterate over all fields
 
-        // TODO: implement that new exercise may be added!!!
-
     userExerciseField.forEach((exerciseField: Exercise) => {
 
       switch (true) {
@@ -197,6 +224,15 @@ export async function patchUserExercises(req: Request, res: Response) {
   }
 }
 
+/**
+ * Checks if the provided field name corresponds to an exercise.
+ *
+ * This function returns true if the field name ends with the string "exercise," indicating that it is related to an exercise.
+ *
+ * @param {string} fieldName - The name of the field to be checked.
+ * @returns {boolean} True if the field corresponds to an exercise, false otherwise.
+ *
+ */
 function isExercise(fieldName: string) {
   return fieldName.endsWith("exercise")
 }
@@ -237,110 +273,97 @@ function createExerciseObject(category: ExerciseCategory, name: string, maxFacto
   return object;
 }
 
-// auch mit dieser funktion stimmt irgendwas nicht ausführlich testen bitte ^^
-function getExerciseFieldByCategory(category: string, user: any) {
+
+/**
+ * Gets the exercise field corresponding to the specified category from the user's data.
+ *
+ * This function takes a category name and a user object and returns the corresponding exercise field from the user's data based on the category.
+ *
+ * @param {string} category - The name of the exercise category (e.g., "Squat", "Bench").
+ * @param {Object} user - The user object containing exercise fields for different categories.
+ * @returns {Array} An array representing the exercise field for the specified category.
+ * @throws {Error} Throws an error if the specified category is unknown.
+ *
+ */
+function getExerciseFieldByCategory(category: ExerciseCategories, user: any) {
   switch (category) {
-    case "Squat":
+    case ExerciseCategories.SQUAT:
       return user.squatExercises;
-    case "Bench":
+    case ExerciseCategories.BENCH:
       return user.benchExercises;
-    case "Deadlift":
+    case ExerciseCategories.DEADLIFT:
       return user.deadliftExercises;
-    case "Overheadpress":
+    case ExerciseCategories.OVERHEADPRESS:
       return user.overheadpressExercises;
-    case "Chest":
+    case ExerciseCategories.CHEST:
       return user.chestExercises;
-    case "Back":
+    case ExerciseCategories.BACK:
       return user.backExercises;
-    case "Shoulder":
+    case ExerciseCategories.SHOULDER:
       return user.shoulderExercises;
-    case "Triceps":
+    case ExerciseCategories.TRICEPS:
       return user.tricepsExercises;
-    case "Biceps":
+    case ExerciseCategories.BICEPS:
       return user.bicepsExercises;
-    case "Leg":
+    case ExerciseCategories.LEGS:
       return user.legExercises;
     default:
-      // handle default case or throw an error
       throw new Error(`Unknown category: ${category}`);
   }
 }
 
-function getExercisesByCategory(exercises: Exercise[], category: string) {
-  return exercises.filter((exercise) => exercise.category.name === category);
-}
 
-function getNumberOfRequestedExercises(
-  exerciseCategoriesLength: number,
-  maxAmountOfExercises: number,
-  exerciseData: any
-) {
-  let count = 0;
-
-  for (let i = 0; i < exerciseCategoriesLength; i++) {
-    for (let k = 0; k < maxAmountOfExercises; k++) {
-      if (exerciseData[`exercise_${i}_${k}`]) {
-        count++;
-      }
-    }
-  }
-
-  return count;
-}
-
-function createUserExerciseObject(
-  exerciseName: string,
-  exerciseMaxFactor: number,
-  index: number,
-  exerciseCategoryPauseTimes: number[],
-  exerciseCategorySets: number[],
-  exerciseCategoryReps: number[],
-  exerciseCategoryRPE: number[]
-) {
-  const object = {
-    name: exerciseName,
-    maxFactor: exerciseMaxFactor,
-    category: {
-      name: getAssociatedCategoryByIndex(index),
-      pauseTime: exerciseCategoryPauseTimes[index],
-      defaultSets: exerciseCategorySets[index],
-      defaultReps: exerciseCategoryReps[index],
-      defaultRPE: exerciseCategoryRPE[index],
-    },
-  };
-
-  return object;
-}
-
-function getAssociatedCategoryByIndex(index: number) {
-
-  if (index === 0) {
-    return "- Bitte Auswählen -";
-  } else if (index === 1) {
-    return "Squat";
-  } else if (index === 2) {
-    return "Bench";
-  } else if (index === 3) {
-    return "Deadlift";
-  } else if (index === 4) {
-    return"Overheadpress";
-  } else if (index === 5) {
-    return "Back";
-  } else if (index === 6) {
-    return "Chest";
-  } else if (index === 7) {
-    return "Shoulder";
-  } else if (index === 8) {
-    return "Triceps";
-  } else if (index === 9) {
-    return "Biceps";
-  } else if (index === 10) {
-    return "Legs";
-  } else {
-    throw new Error("Category is not valid");
+/**
+ * Gets the associated category name based on the provided index.
+ *
+ * This function takes an index and returns the corresponding category name.
+ *
+ * @param {number} index - The index used to determine the associated category.
+ * @returns {string} The associated category name.
+ * @throws {Error} Throws an error if the provided index does not correspond to a valid category.
+ *
+ */
+function getAssociatedCategoryByIndex(index: number): ExerciseCategories {
+  switch (index) {
+    case 0:
+      return ExerciseCategories.PLACEHOLDER;
+    case 1:
+      return ExerciseCategories.SQUAT;
+    case 2:
+      return ExerciseCategories.BENCH;
+    case 3:
+      return ExerciseCategories.DEADLIFT;
+    case 4:
+      return ExerciseCategories.OVERHEADPRESS;
+    case 5:
+      return ExerciseCategories.BACK;
+    case 6:
+      return ExerciseCategories.CHEST;
+    case 7:
+      return ExerciseCategories.SHOULDER;
+    case 8:
+      return ExerciseCategories.TRICEPS;
+    case 9:
+      return ExerciseCategories.BICEPS;
+    case 10:
+      return ExerciseCategories.LEGS;
+    default:
+      throw new Error("Category is not valid");
   }
 }
 
+/**
+ * Prepares exercise data for rendering on the client side.
+ *
+ * @param {Object} user - The user object containing exercise fields for different categories.
+ * @returns {Object} An object containing prepared exercise data for rendering.
+ * @property {string} userID - The user ID.
+ * @property {string[]} exerciseCategories - An array of exercise categories.
+ * @property {Record<string, string[]>} categorizedExercises - A record mapping each category to an array of exercise names.
+ * @property {Record<string, number>} categoryPauseTimes - A record mapping each category to its corresponding pause time.
+ * @property {Record<string, number | undefined>} maxFactors - A record mapping each exercise name to its max factor.
+ * @property {Record<string, { defaultSets: number; defaultReps: number; defaultRPE: number }>} defaultRepSchemeByCategory - A record mapping each category to its default rep scheme.
+ */
 export function prepareExercisesData(user: any) {
   //TODO
   const categorizedExercises: Record<string, string[]> = {};
