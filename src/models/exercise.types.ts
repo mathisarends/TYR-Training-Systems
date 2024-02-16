@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-interface Category {
+export interface ExerciseCategory {
   name: string;
   pauseTime: number;
   defaultSets: number;
@@ -11,7 +11,7 @@ interface Category {
 export interface Exercise {
   name: string;
   maxFactor?: number;
-  category: Category;
+  category: ExerciseCategory;
 }
 
 interface ExerciseDocument extends Exercise, Document {}

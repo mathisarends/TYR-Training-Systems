@@ -34,6 +34,9 @@ export function sendChangedData(
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
+      // Hier möchte ich auch lieber mit einem modal arbeiten, statt die seite neu zu laden 
+
       window.location.href = fetchUrl; // refresh page
     })
     .catch((error) => {
