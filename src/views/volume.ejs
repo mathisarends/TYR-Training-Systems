@@ -18,27 +18,27 @@
                                 <option value="weiblich">weiblich</option>
                             </select>
                         </td>
-                        <td><input type="number" value="3" class="transparent-input text-center category-adjust"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center gender-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Körpergröße in [cm]</td>
                         <td><input type="number" name="bodyheight" id="bodyheight" class="transparent-input"  placeholder="Körpergröße eintragen"></td>
-                        <td><input type="number" value="3" class="transparent-input text-center bodyheight-adjust"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center bodyheight-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Körpergewicht ing [kg]</td>
                         <td><input type="number" name="bodyweight" id="bodyweight" class="transparent-input" placeholder="Körpergewicht eintragen"></td>
-                        <td><input type="number" value="3" class="transparent-input text-center bodyweight-adjust"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center bodyweight-adjust" disabled></td>
                     </tr>
                     <tr>
-                        <td>Lebensalter [Jahre]</td>
-                        <td><input type="number" name="age" id="age" class="transparent-input" placeholder="Lebensjahr eintragen"></td>
-                        <td><input type="number" value="3" class="transparent-input text-center age-adjust"></td>
+                        <td>Alter [Jahre]</td>
+                        <td><input type="number" name="age" id="age" class="transparent-input" placeholder="Wie alt bist du?"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center age-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Trainingserfahrung [Jahre]</td>
-                        <td><input type="number" name="trainingExperience" id="trainingExperience" class="transparent-input" placeholder="Trainingserfahrung eintragen"></td>
-                        <td><input type="number" value="3" class="transparent-input text-center experience-adjust"></td>
+                        <td><input type="number" name="trainingExperience" id="trainingExperience" class="transparent-input" placeholder="Wie viele Jahre trainierst du schon?"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center experience-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Ernährung</td>
@@ -49,7 +49,7 @@
                                 <option value="schlecht">Kaloriendefizit</option>
                             </select>
                         </td>
-                        <td><input type="number" value="3" class="transparent-input text-center nutrition-adjust"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center nutrition-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Schlafqualität</td>
@@ -60,30 +60,44 @@
                                 <option value="schlecht">8h Stunden / Nacht</option>
                             </select>
                         </td>
-                        <td><input type="number" value="3" class="transparent-input text-center sleep-adjust"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center sleep-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Stress</td>
                         <td>
-                            <select name="nutrition" id="nutrition" class="transparent-input ">
-                                <option value="gut">Kalorienerhalt</option>
-                                <option value="optimal">Kalorienüberschuss</option>
-                                <option value="schlecht">Kaloriendefizit</option>
+                            <select name="stress" id="stress" class="transparent-input ">
+                                <option value="mittel">mittel</option>
+                                <option value="niedrig">niedrig</option>
+                                <option value="hoch">hoch</option>
                             </select>
                         </td>
-                        <td><input type="number" value="3" class="transparent-input text-center stress-adjust"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center stress-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Manuelle Anpassung</td>
-                        <td><input type="number" class="transparent-input" placeholder="Anpassung aufgrund von Erfahrungswert"></td>
-                        <td><input type="number" value="3" class="transparent-input text-center adjust-adjust"></td>
+                        <td>
+                            <select name="manuel" id="manuel" class="transparent-input ">
+                                <option value="-5">-5</option>
+                                <option value="-4">-4</option>
+                                <option value="-3">-3</option>
+                                <option value="-2">-2</option>
+                                <option value="-1">-1</option>
+                                <option value="0" selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>        
+                            </select>
+                        </td>
+                        <td><input type="number" value="3" class="transparent-input text-center manuel-adjust" disabled></td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr class="top-border">
                         <td class="font-weight-bold pt-2">Anpassung</td>
                         <td></td>
-                        <td><input type="number" value="3" class="transparent-input text-center result-adjust"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center result-adjust" disabled></td>
                     </tr>
                 </tfoot>
             </table>
@@ -95,3 +109,4 @@
 </div>
 
 <script type="module" src="/ts/sendOnlyChangedData.js"></script>
+<script type="module" src="/ts/volume/volume.js"></script>

@@ -4,7 +4,7 @@ export function initializeExercisePatch(callback: (data: ApiData) => void) {
   const changedData: ApiData = {};
 
   document
-    .querySelectorAll<HTMLInputElement | HTMLSelectElement>("input, select")
+    .querySelectorAll<HTMLInputElement | HTMLSelectElement>("input:not([disabled]), select:not([disabled])")
     .forEach((input) => {
       input.addEventListener("change", () => {
         changedData[input.name] = input.value;
