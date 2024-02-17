@@ -1,0 +1,97 @@
+<div class="container pt-4 pb-4">
+
+    <form action="/volume?_method=PATCH" method="POST">
+            <table class="table table-hover table-responsive-sm w-100 mb-3">
+                <thead>
+                    <tr>
+                        <th class="text-align">Category</th>
+                        <th>Selection</th>
+                        <th class="text-center">Adjustment</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                    <tr>
+                        <td>Geschlecht</td>
+                        <td>
+                            <select name="gender" id="gender-selector" class="transparent-input ">
+                                <option value="männlich">männlich</option>
+                                <option value="weiblich">weiblich</option>
+                            </select>
+                        </td>
+                        <td><input type="number" value="3" class="transparent-input text-center category-adjust"></td>
+                    </tr>
+                    <tr>
+                        <td>Körpergröße in [cm]</td>
+                        <td><input type="number" name="bodyheight" id="bodyheight" class="transparent-input"  placeholder="Körpergröße eintragen"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center bodyheight-adjust"></td>
+                    </tr>
+                    <tr>
+                        <td>Körpergewicht ing [kg]</td>
+                        <td><input type="number" name="bodyweight" id="bodyweight" class="transparent-input" placeholder="Körpergewicht eintragen"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center bodyweight-adjust"></td>
+                    </tr>
+                    <tr>
+                        <td>Lebensalter [Jahre]</td>
+                        <td><input type="number" name="age" id="age" class="transparent-input" placeholder="Lebensjahr eintragen"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center age-adjust"></td>
+                    </tr>
+                    <tr>
+                        <td>Trainingserfahrung [Jahre]</td>
+                        <td><input type="number" name="trainingExperience" id="trainingExperience" class="transparent-input" placeholder="Trainingserfahrung eintragen"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center experience-adjust"></td>
+                    </tr>
+                    <tr>
+                        <td>Ernährung</td>
+                        <td>
+                            <select name="nutrition" id="nutrition" class="transparent-input ">
+                                <option value="gut">Kalorienerhalt</option>
+                                <option value="optimal">Kalorienüberschuss</option>
+                                <option value="schlecht">Kaloriendefizit</option>
+                            </select>
+                        </td>
+                        <td><input type="number" value="3" class="transparent-input text-center nutrition-adjust"></td>
+                    </tr>
+                    <tr>
+                        <td>Schlafqualität</td>
+                        <td>
+                            <select name="sleep" id="sleep" class="transparent-input ">
+                                <option value="gut">&lt; 7 Stunden / Nacht</option>
+                                <option value="optimal">7-8 Stunden / Nacht</option>
+                                <option value="schlecht">8h Stunden / Nacht</option>
+                            </select>
+                        </td>
+                        <td><input type="number" value="3" class="transparent-input text-center sleep-adjust"></td>
+                    </tr>
+                    <tr>
+                        <td>Stress</td>
+                        <td>
+                            <select name="nutrition" id="nutrition" class="transparent-input ">
+                                <option value="gut">Kalorienerhalt</option>
+                                <option value="optimal">Kalorienüberschuss</option>
+                                <option value="schlecht">Kaloriendefizit</option>
+                            </select>
+                        </td>
+                        <td><input type="number" value="3" class="transparent-input text-center stress-adjust"></td>
+                    </tr>
+                    <tr>
+                        <td>Manuelle Anpassung</td>
+                        <td><input type="number" class="transparent-input" placeholder="Anpassung aufgrund von Erfahrungswert"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center adjust-adjust"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="top-border">
+                        <td class="font-weight-bold pt-2">Anpassung</td>
+                        <td></td>
+                        <td><input type="number" value="3" class="transparent-input text-center result-adjust"></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <input type="submit" class="btn btn-dark">
+            <button class="btn btn-outline-dark" id="reset-btn">Reset</button>
+
+    </form>
+</div>
+
+<script type="module" src="/ts/sendOnlyChangedData.js"></script>

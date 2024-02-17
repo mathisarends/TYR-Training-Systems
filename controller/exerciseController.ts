@@ -159,8 +159,13 @@ function processExerciseChanges(
       const exerciseCategoryMetaInfo = getCategoryInfoFromList(userExerciseField)!;
       const newUserExercise = createExerciseObject(exerciseCategoryMetaInfo, newValues[index], undefined); // TODO: implement maxFactor
       userExerciseField.push(newUserExercise);
-    } else { // else rename it
-      userExerciseField[exerciseIndex].name = newValues[index];
+    } else { // else rename it if there is a new value given
+      console.log(newValues[index]);
+      if (newValues[index]) {
+        userExerciseField[exerciseIndex].name = newValues[index];
+      } else { // value is likely to be an empty string so it can be deleted
+        userExerciseField.splice(exerciseIndex, 1);
+      }
     }
 
   } else { // means a field which is applied for all exercises of the category
@@ -207,7 +212,7 @@ export async function patchUserExercises(req: Request, res: Response) {
     const changedCategoriesMap = mapChangedDataToCategories(changedData);
 
     Object.entries(changedCategoriesMap).forEach(([category, { fieldNames, newValues }]) => {
-      const userExerciseField = getExerciseFieldByCategory(category, user);
+      const userExerciseField = getExerciseFieldByCategory(category as ExerciseCategories, user);
 
       for (let index = 0; index < fieldNames.length; index++) {
         processExerciseChanges(fieldNames[index], index, newValues, userExerciseField);

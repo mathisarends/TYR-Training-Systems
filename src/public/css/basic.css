@@ -90,5 +90,22 @@ body {
   .top-border {
     border-top: 2px solid rgb(224, 224, 224);
   }
+
+  /* Stile für alle Input-Elemente vom Typ "number" entfernen */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Webkit-Browser (wie Chrome und Safari) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
   
 
