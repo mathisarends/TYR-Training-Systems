@@ -1,18 +1,18 @@
 <div class="container pt-4 pb-4">
 
     <form action="/volume?_method=PATCH" method="POST">
-            <table class="table table-hover table-responsive-sm w-100 mb-3">
+            <table class="table responsive-tabe volume-table table-hover w-100 mb-3">
                 <thead>
                     <tr>
-                        <th class="text-align">Category</th>
+                        <th class="text-align pb-3 pt-3">Category</th>
                         <th>Selection</th>
                         <th class="text-center">Adjustment</th>
                     </tr>
                   </thead>
                 <tbody>
                     <tr>
-                        <td>Geschlecht</td>
-                        <td>
+                        <td class="pb-3 pt-3">Geschlecht</td>
+                        <td data-cell="Geschlecht">
                             <select name="gender" id="gender-selector" class="transparent-input">
                                 <option value="männlich" <%= userData?.gender === "männlich" ? "selected" : "" %>>männlich</option>
                                 <option value="weiblich" <%= userData?.gender === "weiblich" ? "selected" : "" %>>weiblich</option>
@@ -21,28 +21,28 @@
                         <td><input type="number" value="3" class="transparent-input text-center gender-adjust" disabled></td>
                     </tr>
                     <tr>
-                        <td>Körpergröße in [cm]</td>
-                        <td><input type="number" name="bodyheight" id="bodyheight" class="transparent-input" value="<%= userData?.bodyHeight %>"  placeholder="Körpergröße eintragen"></td>
+                        <td class="pb-3 pt-3">Körpergröße in [cm]</td>
+                        <td data-cell="Körpergröße"><input type="number" name="bodyheight" id="bodyheight" class="transparent-input" value="<%= userData?.bodyHeight %>"  placeholder="Körpergröße eintragen"></td>
                         <td><input type="number" value="3" class="transparent-input text-center bodyheight-adjust" disabled></td>
                     </tr>
                     <tr>
-                        <td>Körpergewicht ing [kg]</td>
-                        <td><input type="number" name="bodyweight" id="bodyweight" class="transparent-input" value="<%= userData?.bodyWeight %>" placeholder="Körpergewicht eintragen"></td>
+                        <td class="pb-3 pt-3">Körpergewicht ing [kg]</td>
+                        <td data-cell="Körpergewicht"><input type="number" name="bodyweight" id="bodyweight" class="transparent-input" value="<%= userData?.bodyWeight %>" placeholder="Körpergewicht eintragen"></td>
                         <td><input type="number" value="3" class="transparent-input text-center bodyweight-adjust" disabled></td>
                     </tr>
                     <tr>
-                        <td>Alter [Jahre]</td>
-                        <td><input type="number" name="age" id="age" class="transparent-input" value="<%= userData?.age %>" placeholder="Wie alt bist du?"></td>
+                        <td class="pb-3 pt-3">Alter [Jahre]</td>
+                        <td data-cell="Alter"><input type="number" name="age" id="age" class="transparent-input" value="<%= userData?.age %>" placeholder="Wie alt bist du?"></td>
                         <td><input type="number" value="3" class="transparent-input text-center age-adjust" disabled></td>
                     </tr>
                     <tr>
-                        <td>Trainingserfahrung [Jahre]</td>
-                        <td><input type="number" name="trainingExperience" id="trainingExperience" class="transparent-input" value="<%= userData?.trainingExperience %>" placeholder="Wie viele Jahre trainierst du schon?"></td>
+                        <td class="pb-3 pt-3">Trainingserfahrung [Jahre]</td>
+                        <td data-cell="Trainingserfahrung [Jahre]"><input type="number" name="trainingExperience" id="trainingExperience" class="transparent-input" value="<%= userData?.trainingExperience %>" placeholder="Wie viele Jahre trainierst du schon?"></td>
                         <td><input type="number" value="3" class="transparent-input text-center experience-adjust" disabled></td>
                     </tr>
                     <tr>
-                        <td>Ernährung</td>
-                        <td>
+                        <td class="pb-3 pt-3">Ernährung</td>
+                        <td data-cell="Ernährung">
                             <select name="nutrition" id="nutrition" class="transparent-input ">
                                 <option value="gut" <%= userData?.nutrition === "gut" ? "selected" : "" %>>Kalorienerhalt</option>
                                 <option value="optimal" <%= userData?.nutrition === "optimal" ? "selected" : "" %>>Kalorienüberschuss</option>
@@ -52,8 +52,8 @@
                         <td><input type="number" value="3" class="transparent-input text-center nutrition-adjust" disabled></td>
                     </tr>
                     <tr>
-                        <td>Schlafqualität</td>
-                        <td>
+                        <td class="pb-3 pt-3">Schlafqualität</td>
+                        <td data-cell="Schlafqualität">
                             <select name="sleep" id="sleep" class="transparent-input ">
                                 <option value="gut" <%= userData?.sleep === "gut" ? "selected" : "" %>>&lt; 7 Stunden / Nacht</option>
                                 <option value="optimal" <%= userData?.sleep === "optimal" ? "selected" : "" %>>7-8 Stunden / Nacht</option>
@@ -63,8 +63,8 @@
                         <td><input type="number" value="3" class="transparent-input text-center sleep-adjust" disabled></td>
                     </tr>
                     <tr>
-                        <td>Stress</td>
-                        <td>
+                        <td class="pb-3 pt-3">Stress</td>
+                        <td data-cell="Stress">
                             <select name="stress" id="stress" class="transparent-input ">
                                 <option value="mittel" <%= userData?.stress === "mittel" ? "selected" : "" %>>mittel</option>
                                 <option value="niedrig" <%= userData?.stress === "niedrig" ? "selected" : "" %>>niedrig</option>
@@ -74,8 +74,8 @@
                         <td><input type="number" value="3" class="transparent-input text-center stress-adjust" disabled></td>
                     </tr>
                     <tr>
-                        <td>Manuelle Anpassung</td>
-                        <td>
+                        <td class="pb-3 pt-3">Manuelle Anpassung</td>
+                        <td data-cell="Manuelle Anpassung">
                             <select name="manual" id="manual" class="transparent-input ">
                                 <option value="0" <%= userData?.manual === 0 ? "selected" : "" %>>0</option>
                                 <option value="-5" <%= userData?.manual === -5 ? "selected" : "" %>>-5</option>
@@ -95,15 +95,14 @@
                 </tbody>
                 <tfoot>
                     <tr class="top-border">
-                        <td class="font-weight-bold pt-2">Anpassung</td>
+                        <td class="font-weight-bold pt-2 cpb-3 pt-3">Anpassung</td>
                         <td></td>
-                        <td><input type="number" value="3" class="transparent-input text-center result-adjust" disabled></td>
+                        <td data-cell="Anpassung"><input type="number" value="3" class="transparent-input text-ce result-adjust" disabled></td>
                     </tr>
                 </tfoot>
             </table>
 
             <input type="submit" class="btn btn-dark">
-            <button class="btn btn-outline-dark" id="reset-btn">Reset</button>
 
     </form>
 </div>

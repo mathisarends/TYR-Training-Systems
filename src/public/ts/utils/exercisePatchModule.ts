@@ -35,12 +35,12 @@ export function sendChangedData(
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // Hier möchte ich auch lieber mit einem modal arbeiten, statt die seite neu zu laden 
+      //@ts-ignore
       $('.modal').modal('show');
 
+      //@ts-ignore
       setTimeout(() => $('.modal').modal('hide'), 3000);
 
-      //window.location.href = fetchUrl; // refresh page
     })
     .catch((error) => {
       console.error("Fetch error:", error);

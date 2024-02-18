@@ -1,6 +1,12 @@
+import { checkWindowSize } from "./windowSizing.js";
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("bin eingebunden");
+    // Überprüfe die Fenstergröße beim Laden der Seite
+    checkWindowSize();
+
+    // Überprüfe die Fenstergröße bei Änderungen
+    window.addEventListener("resize", checkWindowSize);
 
     const genderSelect = document.getElementById("gender-selector") as HTMLSelectElement;
     const genderAdjustField = document.querySelector(".gender-adjust") as HTMLInputElement;
@@ -344,6 +350,8 @@ document.addEventListener("DOMContentLoaded", () => {
     //calcIndividualizedVolume();
 
 })
+
+
 
 
 
