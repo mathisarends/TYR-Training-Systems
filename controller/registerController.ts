@@ -1,5 +1,5 @@
 import User from "../src/models/user.model.js";
-import userData from "../src/models/userData.model.js";
+import UserData from "../src/models/userData.model.js";
 
 import bcrypt from "bcrypt";
 
@@ -154,6 +154,29 @@ export async function handleRegisterPost(req: Request, res: Response) {
     await newUser.save();
     console.log("Template TrainingPlan erfolgreich gespeichert");
 
+    const userConfig = await UserData.findOne({ user: userID });
+
+    // StandartFall: Nach der Registrierung gibt es noch keine solche config
+    if (!userConfig) {
+      // Falls für den Benutzer keine Konfiguration gefunden wurde, erstelle eine neue
+      const newUserConfig = new UserData({ user: userID });
+
+      newUserConfig.bodyWeight = null;
+      newUserConfig.bodyHeight = null;
+      newUserConfig.age = null;
+      newUserConfig.trainingExperience = null;
+      newUserConfig.sleep = null;
+      newUserConfig.nutrition = null;
+      newUserConfig.stress = null;
+
+      // standartwerte
+      newUserConfig.manual = 0;
+
+      await newUserConfig.save();
+      console.log("Neue Benutzerkonfiguration erstellt.");
+
+    }
+
     res
       .status(201)
       .json({ success: true, message: "Benutzer erfolgreich erstellt" });
@@ -215,12 +238,12 @@ export async function postConfigPage(req: Request, res: Response) {
     const nutrition = req.body.nutrition;
     const stress = req.body.stress;
 
-    const userConfig = await userData.findOne({ user: userID });
+    const userConfig = await UserData.findOne({ user: userID });
 
     // StandartFall: Nach der Registrierung gibt es noch keine solche config
     if (!userConfig) {
       // Falls für den Benutzer keine Konfiguration gefunden wurde, erstelle eine neue
-      const newUserConfig = new userData({ user: userID });
+      const newUserConfig = new UserData({ user: userID });
 
       newUserConfig.bodyWeight = bodyWeight;
       newUserConfig.bodyHeight = height;
@@ -228,15 +251,13 @@ export async function postConfigPage(req: Request, res: Response) {
       newUserConfig.maxSquat = maxSquat;
       newUserConfig.maxBench = maxBench;
       newUserConfig.maxDeadlift = maxDeadlift;
-      newUserConfig.strengthLevel = strengthLevel;
       newUserConfig.trainingExperience = trainingExperience;
-      newUserConfig.sleepQuality = sleep;
+      newUserConfig.sleep = sleep;
       newUserConfig.nutrition = nutrition;
       newUserConfig.stress = stress;
 
       // standartwerte
-      newUserConfig.regenerationCapacity = "durchschnittlich";
-      newUserConfig.doping = "nein";
+      newUserConfig.manual = 0;
 
       await newUserConfig.save();
       console.log("Neue Benutzerkonfiguration erstellt.");
@@ -247,14 +268,12 @@ export async function postConfigPage(req: Request, res: Response) {
       userConfig.maxSquat = maxSquat;
       userConfig.maxBench = maxBench;
       userConfig.maxDeadlift = maxDeadlift;
-      userConfig.strengthLevel = strengthLevel;
       userConfig.trainingExperience = trainingExperience;
-      userConfig.sleepQuality = sleep;
+      userConfig.sleep = sleep;
       userConfig.nutrition = nutrition;
       userConfig.stress = stress;
       // standartwerte
-      userConfig.regenerationCapacity = "durchschnittlich";
-      userConfig.doping = "nein";
+      userConfig.manual = 0;
     }
 
     await user.save();

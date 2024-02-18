@@ -250,11 +250,11 @@ document.addEventListener("DOMContentLoaded", () => {
         //calcIndividualizedVolume();
     });
 
-    const manuelSelect = document.getElementById("manuel") as HTMLInputElement;
-    const manuelAdjustField = document.querySelector(".manuel-adjust") as HTMLInputElement;
+    const manualSelect = document.getElementById("manual") as HTMLInputElement;
+    const manualAdjustField = document.querySelector(".manual-adjust") as HTMLInputElement;
 
-    manuelSelect.addEventListener("change", () => {
-        const manuelFactor = parseInt(manuelSelect.value, 10);
+    manualSelect.addEventListener("change", () => {
+        const manuelFactor = parseInt(manualSelect.value);
 
         switch (manuelFactor) {
             case -5:
@@ -268,12 +268,13 @@ document.addEventListener("DOMContentLoaded", () => {
             case 3:
             case 4:
             case 5:
-                manuelAdjustField.value = manuelFactor.toString();
+                manualAdjustField.value = manuelFactor.toString();
                 break;
             default:
                 // Behandlung für andere Werte, falls erforderlich
                 break;
         }
+        calcVolumeAdjustment();
     });
 
 
@@ -301,8 +302,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const stressVal = stressAdjustField.value
             ? parseInt(stressAdjustField.value)
             : 0;
-        const regVal = manuelAdjustField.value
-            ? parseInt(manuelAdjustField.value)
+        const regVal = manualSelect.value
+            ? parseInt(manualAdjustField.value)
             : 0;
 
         const result =
@@ -323,6 +324,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // hier weil alle inputs zunächst getriggert werden werden immer alle werte mit geschickt!
+
+
+    // Volume Samples
+    // not only for squat, bench, deadlift
+    // adjust default values for squat bench deadlift to be more moderate
+
     const event = new Event("change");
     genderSelect.dispatchEvent(event);
     bodyweightInput.dispatchEvent(event);
@@ -332,7 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nutritionSelect.dispatchEvent(event);
     sleepSelect.dispatchEvent(event);
     stressSelect.dispatchEvent(event);
-    manuelSelect.dispatchEvent(event);
+    manualSelect.dispatchEvent(event);
     calcVolumeAdjustment();
     //calcIndividualizedVolume();
 

@@ -1,22 +1,17 @@
 export interface UserDataInterface {
   user: "string";
   bodyweight: number;
-  bodyHeight: number;
+  bodyheight: number;
   age: number;
   maxSquat: number;
   maxBench: number;
   maxDeadlift: number;
   total: number;
   nutrition: "schlecht" | "gut" | "optimal";
-  sleepQuality: "schlecht" | "gut" | "optimal";
+  sleep: "schlecht" | "gut" | "optimal";
   stress: "hoch" | "mittel" | "niedrig";
   doping: "ja" | "nein";
-  regenerationCapacity:
-    | "schlecht"
-    | "unterdurchschnittlich"
-    | "durchschnittlich"
-    | "gut"
-    | "perfekt";
+  manuel: -5 | -4 | -3 | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5,
   strengthLevel:
     | "Elite"
     | "Master"

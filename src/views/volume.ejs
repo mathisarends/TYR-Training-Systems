@@ -13,40 +13,40 @@
                     <tr>
                         <td>Geschlecht</td>
                         <td>
-                            <select name="gender" id="gender-selector" class="transparent-input ">
-                                <option value="männlich">männlich</option>
-                                <option value="weiblich">weiblich</option>
-                            </select>
+                            <select name="gender" id="gender-selector" class="transparent-input">
+                                <option value="männlich" <%= userData?.gender === "männlich" ? "selected" : "" %>>männlich</option>
+                                <option value="weiblich" <%= userData?.gender === "weiblich" ? "selected" : "" %>>weiblich</option>
+                              </select>
                         </td>
                         <td><input type="number" value="3" class="transparent-input text-center gender-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Körpergröße in [cm]</td>
-                        <td><input type="number" name="bodyheight" id="bodyheight" class="transparent-input"  placeholder="Körpergröße eintragen"></td>
+                        <td><input type="number" name="bodyheight" id="bodyheight" class="transparent-input" value="<%= userData?.bodyHeight %>"  placeholder="Körpergröße eintragen"></td>
                         <td><input type="number" value="3" class="transparent-input text-center bodyheight-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Körpergewicht ing [kg]</td>
-                        <td><input type="number" name="bodyweight" id="bodyweight" class="transparent-input" placeholder="Körpergewicht eintragen"></td>
+                        <td><input type="number" name="bodyweight" id="bodyweight" class="transparent-input" value="<%= userData?.bodyWeight %>" placeholder="Körpergewicht eintragen"></td>
                         <td><input type="number" value="3" class="transparent-input text-center bodyweight-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Alter [Jahre]</td>
-                        <td><input type="number" name="age" id="age" class="transparent-input" placeholder="Wie alt bist du?"></td>
+                        <td><input type="number" name="age" id="age" class="transparent-input" value="<%= userData?.age %>" placeholder="Wie alt bist du?"></td>
                         <td><input type="number" value="3" class="transparent-input text-center age-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Trainingserfahrung [Jahre]</td>
-                        <td><input type="number" name="trainingExperience" id="trainingExperience" class="transparent-input" placeholder="Wie viele Jahre trainierst du schon?"></td>
+                        <td><input type="number" name="trainingExperience" id="trainingExperience" class="transparent-input" value="<%= userData?.trainingExperience %>" placeholder="Wie viele Jahre trainierst du schon?"></td>
                         <td><input type="number" value="3" class="transparent-input text-center experience-adjust" disabled></td>
                     </tr>
                     <tr>
                         <td>Ernährung</td>
                         <td>
                             <select name="nutrition" id="nutrition" class="transparent-input ">
-                                <option value="gut">Kalorienerhalt</option>
-                                <option value="optimal">Kalorienüberschuss</option>
-                                <option value="schlecht">Kaloriendefizit</option>
+                                <option value="gut" <%= userData?.nutrition === "gut" ? "selected" : "" %>>Kalorienerhalt</option>
+                                <option value="optimal" <%= userData?.nutrition === "optimal" ? "selected" : "" %>>Kalorienüberschuss</option>
+                                <option value="schlecht" <%= userData?.nutrition === "schlecht" ? "selected" : "" %>>Kaloriendefizit</option>
                             </select>
                         </td>
                         <td><input type="number" value="3" class="transparent-input text-center nutrition-adjust" disabled></td>
@@ -55,9 +55,9 @@
                         <td>Schlafqualität</td>
                         <td>
                             <select name="sleep" id="sleep" class="transparent-input ">
-                                <option value="gut">&lt; 7 Stunden / Nacht</option>
-                                <option value="optimal">7-8 Stunden / Nacht</option>
-                                <option value="schlecht">8h Stunden / Nacht</option>
+                                <option value="gut" <%= userData?.sleep === "gut" ? "selected" : "" %>>&lt; 7 Stunden / Nacht</option>
+                                <option value="optimal" <%= userData?.sleep === "optimal" ? "selected" : "" %>>7-8 Stunden / Nacht</option>
+                                <option value="schlecht" <%= userData?.sleep === "schlecht" ? "selected" : "" %>>8h Stunden / Nacht</option>
                             </select>
                         </td>
                         <td><input type="number" value="3" class="transparent-input text-center sleep-adjust" disabled></td>
@@ -66,9 +66,9 @@
                         <td>Stress</td>
                         <td>
                             <select name="stress" id="stress" class="transparent-input ">
-                                <option value="mittel">mittel</option>
-                                <option value="niedrig">niedrig</option>
-                                <option value="hoch">hoch</option>
+                                <option value="mittel" <%= userData?.stress === "mittel" ? "selected" : "" %>>mittel</option>
+                                <option value="niedrig" <%= userData?.stress === "niedrig" ? "selected" : "" %>>niedrig</option>
+                                <option value="hoch" <%= userData?.stress === "hoch" ? "selected" : "" %>>hoch</option>
                             </select>
                         </td>
                         <td><input type="number" value="3" class="transparent-input text-center stress-adjust" disabled></td>
@@ -76,21 +76,21 @@
                     <tr>
                         <td>Manuelle Anpassung</td>
                         <td>
-                            <select name="manuel" id="manuel" class="transparent-input ">
-                                <option value="-5">-5</option>
-                                <option value="-4">-4</option>
-                                <option value="-3">-3</option>
-                                <option value="-2">-2</option>
-                                <option value="-1">-1</option>
-                                <option value="0" selected>0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>        
+                            <select name="manual" id="manual" class="transparent-input ">
+                                <option value="0" <%= userData?.manual === 0 ? "selected" : "" %>>0</option>
+                                <option value="-5" <%= userData?.manual === -5 ? "selected" : "" %>>-5</option>
+                                <option value="-4" <%= userData?.manual === -4 ? "selected" : "" %>>-4</option>
+                                <option value="-3" <%= userData?.manual === -3 ? "selected" : "" %>>-3</option>
+                                <option value="-2" <%= userData?.manual === -2 ? "selected" : "" %>>-2</option>
+                                <option value="-1" <%= userData?.manual === -1 ? "selected" : "" %>>-1</option>
+                                <option value="1" <%= userData?.manual === 1 ? "selected" : "" %>>1</option>
+                                <option value="2" <%= userData?.manual === 2 ? "selected" : "" %>>2</option>
+                                <option value="3" <%= userData?.manual === 3 ? "selected" : "" %>>3</option>
+                                <option value="4" <%= userData?.manual === 4 ? "selected" : "" %>>4</option>
+                                <option value="5" <%= userData?.manual === 5 ? "selected" : "" %>>5</option>        
                             </select>
                         </td>
-                        <td><input type="number" value="3" class="transparent-input text-center manuel-adjust" disabled></td>
+                        <td><input type="number" value="3" class="transparent-input text-center manual-adjust" disabled></td>
                     </tr>
                 </tbody>
                 <tfoot>

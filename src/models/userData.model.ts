@@ -8,12 +8,30 @@ const userDataSchema = new mongoose.Schema({
   },
   bodyWeight: {
     type: Number,
+    validate: {
+      validator: function(value : number) {
+        return value >= 0
+      },
+      message: "Körpergewicht darf nicht negativ sein",
+    }
   },
   bodyHeight: {
     type: Number,
+    validate: {
+      validator: function(value : number) {
+        return value >= 0
+      },
+      message: "Körpergröße darf nicht negativ sein",
+    }
   },
   age: {
     type: Number,
+    validate: {
+      validator: function(value : number) {
+        return value >= 0
+      },
+      message: "Alter muss einen validen Wert haben",
+    }
   },
   maxSquat: {
     type: Number,
@@ -31,7 +49,7 @@ const userDataSchema = new mongoose.Schema({
     type: String,
     enum: ["schlecht", "gut", "optimal"],
   },
-  sleepQuality: {
+  sleep: {
     type: String,
     enum: ["schlecht", "gut", "optimal"],
   },
@@ -39,35 +57,17 @@ const userDataSchema = new mongoose.Schema({
     type: String,
     enum: ["hoch", "mittel", "niedrig"],
   },
-  doping: {
-    type: String,
-    enum: ["ja", "nein"],
-  },
-  regenerationCapacity: {
-    type: String,
-    enum: [
-      "schlecht",
-      "unterdurchschnittlich",
-      "durchschnittlich",
-      "gut",
-      "perfekt",
-    ],
-  },
-  strengthLevel: {
-    type: String,
-    enum: [
-      "Elite",
-      "Master",
-      "Class 1",
-      "Class 2",
-      "Class 3",
-      "Class 4",
-      "Class 5",
-    ],
+  manual: {
+    type: Number,
+    validate: {
+      validator: function (value : number) {
+        return value >= -5 && value <= 5;
+      },
+      message: 'Der Wert für "manuel" muss im Bereich von -5 bis 5 liegen.',
+    },
   },
   trainingExperience: {
-    type: String,
-    enum: ["beginner", "fortgeschritten", "sehrFortgeschritten", "experte"],
+    type: Number,
   },
   gender: {
     type: String,
@@ -112,5 +112,5 @@ const userDataSchema = new mongoose.Schema({
   },
 });
 
-const userData = mongoose.model("UserData", userDataSchema);
-export default userData;
+const UserData = mongoose.model("UserData", userDataSchema);
+export default UserData;

@@ -19,6 +19,7 @@ import {
 
 import templateTrainingPlans from "./src/generators/templateTrainingPlans.js";
 import User from "./src/models/user.model.js";
+import UserData from "./src/models/userData.model.js";
 
 // use environment variables instead
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -64,6 +65,32 @@ passport.use(new GoogleStrategy({
 
         // Speichern des neuen Benutzers in der Datenbank
         await newUser.save();
+
+        const userConfig = await UserData.findOne({ user: newUser._id });
+
+        // StandartFall: Nach der Registrierung gibt es noch keine solche config
+        if (!userConfig) {
+          // Falls für den Benutzer keine Konfiguration gefunden wurde, erstelle eine neue
+          const newUserConfig = new UserData({ user: newUser._id });
+    
+          newUserConfig.bodyWeight = null;
+          newUserConfig.bodyHeight = 0;
+          newUserConfig.age = 0;
+          newUserConfig.maxSquat = 0;
+          newUserConfig.maxBench = 0;
+          newUserConfig.maxDeadlift = 0;
+          newUserConfig.trainingExperience = 3;
+          newUserConfig.sleep = "optimal";
+          newUserConfig.nutrition = "optimal";
+          newUserConfig.stress = "mittel";
+    
+          // standartwerte
+          newUserConfig.manual = 0;
+    
+          await newUserConfig.save();
+          console.log("Neue Benutzerkonfiguration erstellt.");
+          
+        }
 
         //@ts-ignore
         newUser.templatePlans.push(templateTrainingPlans.createTemplatePlanA(newUser._id));
