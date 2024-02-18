@@ -36,8 +36,11 @@ export function sendChangedData(
       }
 
       // Hier möchte ich auch lieber mit einem modal arbeiten, statt die seite neu zu laden 
+      $('.modal').modal('show');
 
-      window.location.href = fetchUrl; // refresh page
+      setTimeout(() => $('.modal').modal('hide'), 3000);
+
+      //window.location.href = fetchUrl; // refresh page
     })
     .catch((error) => {
       console.error("Fetch error:", error);

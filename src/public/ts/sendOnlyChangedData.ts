@@ -5,7 +5,7 @@ let changedData: ApiData = {}; // Definiere changedData im höheren Kontext
 
 const path = window.location.pathname;
 
-console.log("Hello");
+console.log("Hello bin eingebunden");
 
 initializeExercisePatch((data) => {
   changedData = data; // Aktualisiere changedData im höheren Kontext
