@@ -25,8 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleSwipeRight() {
         currentBlockType = currentBlockType === "hypertrophie" ? "kraft" : "hypertrophie";
 
-        const volumeRecommandationTableCaption = document.getElementById("volume-recommandation-table")!;
-        volumeRecommandationTableCaption.textContent = `Volumenempfehlung - ${capitalizeFirstLetter(currentBlockType)}`;
+        //const volumeRecommandationTableCaption = document.getElementById("volume-recommandation-table")!;
+        //volumeRecommandationTableCaption.textContent = `Volumenempfehlung - ${capitalizeFirstLetter(currentBlockType)}`;
         
         const event = new Event("change");
         genderSelect.dispatchEvent(event);

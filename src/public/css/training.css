@@ -1,0 +1,12 @@
+.col {
+    transition: transform 0.3s ease-in-out; /* Übergangseigenschaft hinzufügen */
+}
+
+.col:hover {
+    transform: scale(0.9875);
+}
+
+/* for activation styling */
+.col .active {
+    border: 3px solid black;
+}

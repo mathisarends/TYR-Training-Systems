@@ -35,11 +35,17 @@ export function sendChangedData(
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      //@ts-ignore
-      $('.modal').modal('show');
+      if (fetchUrl === "training/create") {
+        window.location.href = "/training";
+      } else { // Normallfall
+        //@ts-ignore
+        $('.modal').modal('show');
 
-      //@ts-ignore
-      setTimeout(() => $('.modal').modal('hide'), 3000);
+        //@ts-ignore
+        setTimeout(() => $('.modal').modal('hide'), 3000);
+      }
+
+
 
     })
     .catch((error) => {
