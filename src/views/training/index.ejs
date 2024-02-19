@@ -10,7 +10,7 @@
     <% } else { %>
         <% trainingPlans.forEach((plan, index) => { %>
 
-            <a href="/training/<%= index + 1 %>" class="col mb-3">
+            <a href="/training/<%= index + 1 %>" class="training-card col mb-3">
                 <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('/images/training/training_<%= index + 1 %>.jpg'); background-size: cover;">
                   <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                     <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold"><%= plan.title %></h2>
@@ -24,7 +24,7 @@
                       </li>
                       <li class="d-flex align-items-center">
                         <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
-                        <small><%= plan.lastUpdated %></small>
+                        <small><%= formatCustomDate(plan.lastUpdated) %></small>
                       </li>
                     </ul>
                   </div>
@@ -38,7 +38,7 @@
   </div>
 
 
-  <div class="container mb-4">
+<!--   <div class="container mb-4">
     <div class="row justify-content-center align-items-center">
       <nav aria-label="Page navigation example">
         <ul class="pagination">
@@ -54,10 +54,16 @@
         </ul>
       </nav>
     </div>
+  </div> -->
+
+  <button id="showCreatePlanModal" class="btn btn-light mb-4 bg-light small-white-border" data-toggle="modal" data-target="#exampleModal">Neuen Plan erstellen</button>
+  
+  <div id="optionsButtonContainer" class="d-none">
+    <button class="btn btn-light mb-4 bg-light small-white-border mr-1">Trainieren</button>
+    <button id="edit-plan-button" class="btn btn-light mb-4 bg-light small-white-border mr-1">Bearbeiten</button>
+    <button id="delete-plan-button" class="btn btn-light mb-4 bg-light small-white-border">Löschen</button>
   </div>
 
-  <button class="btn btn-info mb-4" data-toggle="modal" data-target="#exampleModal">Neuen Plan erstellen</button>
-  
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
