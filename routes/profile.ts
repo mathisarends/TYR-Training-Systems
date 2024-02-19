@@ -1,6 +1,6 @@
 import express from "express";
 import { checkAuthenticated } from "../middleware/authMiddleware.js";
-import { formatDateMonthAndYear } from "../generic/formatDate.js";
+import { formatDateMonthAndYear } from "../src/public/generic/formatDate.js";
 const router = express.Router();
 
 router.get("/", checkAuthenticated, (req, res) => {
