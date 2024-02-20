@@ -2,9 +2,10 @@ import express from "express";
 const router = express.Router();
 
 import { UserInterface } from "../src/models/user.types.js";
+import { TrainingBlockInterface } from "../src/models/trainingBlock.types.js";
 
 import TrainingBlock from "../src/models/trainingBlock.model.js";
-import { TrainingBlockInterface } from "../src/models/trainingBlock.types.js";
+import { prepareExercisesData } from "../controller/exerciseController.js";
 
 import { checkAuthenticated } from "../middleware/authMiddleware.js";
 import { formatCustomDate } from "../src/public/generic/formatDate.js";
@@ -23,6 +24,42 @@ router.get("/", checkAuthenticated, (req, res) => {
         trainingPlans,
         formatCustomDate,
     })
+})
+
+// TODO hier noch weekId finden
+router.get("/trainingplan/:id", checkAuthenticated, async (req, res) => {
+    try {
+        const user = res.locals.user;
+
+        const planId = req.params.id;
+        const trainingPlan = user.customPlans.id(planId);
+
+        const trainingWeek = trainingPlan.trainingWeeks[0];
+        const {
+            exerciseCategories,
+            categoryPauseTimes,
+            categorizedExercises,
+            defaultRepSchemeByCategory,
+            maxFactors
+        } = prepareExercisesData(user);
+
+        res.render("training/trainingPage", {
+            defaultLayout: true,
+            carousel: false,
+            trainingPlan,
+            trainingWeek,
+
+            exerciseCategories,
+            categoryPauseTimes,
+            categorizedExercises,
+            defaultRepSchemeByCategory,
+            maxFactors
+        })
+
+
+    } catch (error) {
+        console.log("Es ist ein Fehler beim Aufrufen des Trainingsplans aufgetreten!", error);
+    }
 })
 
 router.delete("/delete/:id", checkAuthenticated, async (req, res) => {
@@ -81,8 +118,8 @@ router.patch("/plan/:planIndex", checkAuthenticated, async (req, res) => {
 
             if (trainingPlan.trainingWeeks.length !== req.body.trainingWeeks) {
 
-                const difference  = trainingPlan.trainingWeeks.length - parseInt(req.body.trainingWeeks);
-                
+                const difference = trainingPlan.trainingWeeks.length - parseInt(req.body.trainingWeeks);
+
                 handleWeekDifference(trainingPlan, difference);
 
             }

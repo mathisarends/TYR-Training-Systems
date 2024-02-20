@@ -12,6 +12,7 @@ interface TrainingWeekInterface {
 }
 
 export interface TrainingBlockInterface {
+    _id : string,
     title: string, 
     isTemplate: boolean,
     trainingFrequency: number,
