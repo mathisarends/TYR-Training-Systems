@@ -29,10 +29,10 @@ router.delete("/delete/:id", checkAuthenticated, async (req, res) => {
 
     try {
         const user = res.locals.user;
-    
+
         const deleteId = parseInt(req.params.id);
         user.customPlans?.splice(deleteId, 1);
-    
+
         await user.save();
 
         res.status(200).json({});
@@ -71,19 +71,24 @@ router.patch("/plan/:planIndex", checkAuthenticated, async (req, res) => {
 
         const planIndex = parseInt(req.params.planIndex);
 
-        console.log("we here and right");
-        console.log(planIndex);
-
-        if (planIndex >= 0 && planIndex < user.customPlans.length) { 
+        if (planIndex >= 0 && planIndex < user.customPlans.length) {
             const trainingPlan = user.customPlans[planIndex];
 
             trainingPlan.title = req.body.title;
             trainingPlan.trainingFrequency = req.body.trainingFrequency;
             trainingPlan.trainingPhase = req.body.trainingPhase;
             trainingPlan.weightRecommandationBase = req.body.weightPlaceholders;
-    
+
+            if (trainingPlan.trainingWeeks.length !== req.body.trainingWeeks) {
+
+                const difference  = trainingPlan.trainingWeeks.length - parseInt(req.body.trainingWeeks);
+                
+                handleWeekDifference(trainingPlan, difference);
+
+            }
+
             await user.save();
-    
+
             res.status(200).json({});
         } else {
             res.status(404).json({ error: "Plan nicht gefunden" });
@@ -95,6 +100,48 @@ router.patch("/plan/:planIndex", checkAuthenticated, async (req, res) => {
 
     }
 })
+
+function handleWeekDifference(trainingPlan: TrainingBlockInterface, difference: number) {
+
+    const absoluteDifference = Math.abs(difference);
+
+    if (difference < 0) {
+        //@ts-ignore
+        addNewTrainingWeeks(trainingPlan.trainingWeeks, trainingPlan.trainingFrequency, absoluteDifference, trainingPlan._id)
+    } else {
+        removeTrainingWeeks(trainingPlan.trainingWeeks, absoluteDifference)
+    }
+
+}
+
+function addNewTrainingWeeks(
+    trainingWeeks: any,
+    trainingFrequency: number,
+    addedWeeks: number,
+    trainingPlanId: string
+) {
+    const emptyTrainingDay = {
+        exercises: [],
+    };
+
+    for (let j = 0; j < addedWeeks; j++) {
+        const trainingDays = [];
+        for (let i = 0; i < trainingFrequency; i++) {
+            trainingDays.push(emptyTrainingDay);
+        }
+        trainingWeeks.push({ trainingDays, trainingPlanId });
+    }
+}
+
+export function removeTrainingWeeks(
+    trainingWeeks: any,
+    removeTrainingWeeks: number,
+) {
+    for (let i = 0; i < removeTrainingWeeks; i++) {
+        trainingWeeks.pop();
+    }
+}
+
 
 router.post('/create', checkAuthenticated, async (req, res) => {
     try {
@@ -109,7 +156,7 @@ router.post('/create', checkAuthenticated, async (req, res) => {
         const trainingWeeks = createNewTrainingPlanWithPlaceholders(
             parseInt(trainingPlanWeeks),
             parseInt(trainingFrequency)
-          );
+        );
 
         // Erstelle einen neuen TrainingBlock
         const newTrainingBlock = new TrainingBlock({
@@ -122,7 +169,7 @@ router.post('/create', checkAuthenticated, async (req, res) => {
         });
 
         user.customPlans.push(newTrainingBlock);
-        user.customPlans.sort((a : any , b : any) => b.lastUpdated - a.lastUpdated);
+        user.customPlans.sort((a: any, b: any) => b.lastUpdated - a.lastUpdated);
 
         await user.save();
 
@@ -140,22 +187,22 @@ router.post('/create', checkAuthenticated, async (req, res) => {
     }
 });
 
-function createNewTrainingPlanWithPlaceholders(weeks : number, daysPerWeek : number) {
+function createNewTrainingPlanWithPlaceholders(weeks: number, daysPerWeek: number) {
     const trainingWeeks = [];
-  
+
     for (let weekIndex = 0; weekIndex < weeks; weekIndex++) {
-      const trainingDays = [];
-      for (let dayIndex = 0; dayIndex < daysPerWeek; dayIndex++) {
-        const trainingDay = {
-          exercises: [],
-        };
-        trainingDays.push(trainingDay);
-      }
-      trainingWeeks.push({ trainingDays });
+        const trainingDays = [];
+        for (let dayIndex = 0; dayIndex < daysPerWeek; dayIndex++) {
+            const trainingDay = {
+                exercises: [],
+            };
+            trainingDays.push(trainingDay);
+        }
+        trainingWeeks.push({ trainingDays });
     }
-  
+
     return trainingWeeks;
-  }
+}
 
 
 
