@@ -29,4 +29,7 @@
         content: attr(data-cell) ": ";
     }
 
+    .training-table tr {
+        border-top: 2px solid black;
+    }
 }
