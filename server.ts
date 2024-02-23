@@ -21,6 +21,7 @@ import indexRouter from "./routes/index.js";
 import profileRouter from "./routes/profile.js";
 import volumeRouter from "./routes/volumeRouter.js";
 import trainingRouter from "./routes/training.js";
+import socialRouter from "./routes/social.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -70,6 +71,7 @@ app.use("/logout", logoutRouter);
 app.use("/exercises", exerciseRouter);
 app.use("/volume", volumeRouter);
 app.use("/training", trainingRouter);
+app.use("/social", socialRouter);
 
 // Database and Server Start
 startDB(app, () => startServer(app));

@@ -12,6 +12,14 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  description: String,
+  lastActivity: {
+    type: Date,
+    get: (timestamp : Date) => {
+        const options : Intl.DateTimeFormatOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        return new Date(timestamp).toLocaleDateString('de-DE', options);
+    },
+  },
   email: {
     type: String,
     required: true,

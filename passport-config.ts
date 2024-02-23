@@ -82,16 +82,29 @@ export function customLoginMiddleware(passport: PassportStatic) {
       }
 
       // Anmeldung erfolgreich
-      req.logIn(user, (err) => {
+      req.logIn(user, async (err) => {
         if (err) {
           return res
             .status(500)
             .json({ success: false, message: "Anmeldung fehlgeschlagen" });
-        }
-        return res
+        } else {
+          await updateLastActivityUserField(user);
+
+          return res
           .status(200)
           .json({ success: true, message: "Anmeldung erfolgreich" });
+        }
+
       });
     })(req, res, next);
   };
+}
+
+async function updateLastActivityUserField(user : any) {
+  try {
+    user.lastActivity = new Date();
+    await user.save();
+  } catch (error) {
+    console.log("Fehler beim speichern der last activity", error);
+  }
 }
