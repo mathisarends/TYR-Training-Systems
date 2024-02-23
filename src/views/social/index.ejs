@@ -12,8 +12,7 @@
             <h5 class="card-title">
               <%= user.name %>
             </h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-              content. This content is a little bit longer.</p>
+            <p class="card-text"><%= user.description || "Kraftsport Freund" %></p>
           </div>
           <div class="card-footer">
             <small class="text-muted">Zuletzt online <%= user.lastActivity %></small>
@@ -21,8 +20,15 @@
         </div>
       </div>
       <% }) %>
-
   </div>
+
+  <div class="visibility-hidden d-flex justify-content-center mt-3" id="add-friend-button">
+    <input type="hidden" value=""> <!--Hier wird die Id des zuletzt ausgewählten friends zwischengespeichert! -->
+    <button class="btn btn-primary">Add Friend</button>
+  </div>
+
+
+
 </div>
 
 <script type="module" src="ts/social/social.js"></script>

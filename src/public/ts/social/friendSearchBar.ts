@@ -2,8 +2,8 @@ export class SearchBar {
 
     friendSearchBar: HTMLInputElement;
 
-    constructor(searchBarSelector: string) {
-        this.friendSearchBar = document.querySelector(searchBarSelector)!;
+    constructor() {
+        this.friendSearchBar = document.querySelector("#friendSearchBar")!;
         this.initializeSearchBarFilter();
     }
 
