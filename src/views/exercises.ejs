@@ -10,7 +10,7 @@
     <form action="/exercises?_method=PATCH" method="POST">
         <% for (let categoryIndex = 1; categoryIndex < exerciseCategories.length; categoryIndex++) { %>
             <% const category=exerciseCategories[categoryIndex]; %>
-            <table class="table mb-5">
+            <table class="table mb-5 table-hover">
                 <thead>
                   <tr>
                     <th scope="col"><%= category %></th>
@@ -180,6 +180,7 @@
     </form>
 </div>
 
-<script type="module" src="/ts/exercises.js"></script>
+<script type="module" src="/ts/sendOnlyChangedData.js"></script>
+<script src="/ts/exercises.js"></script>
 
 

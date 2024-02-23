@@ -4,6 +4,7 @@ import { ExerciseInterface } from "./trainingDay.types.js"
 
 
 export interface UserInterface {
+    _id: string, // wird automatisch verwaltet
     name: string,
     createdAt: Date,
     email: string,

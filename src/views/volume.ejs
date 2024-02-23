@@ -1,0 +1,146 @@
+<div class="container pt-4 pb-4">
+
+    <form action="/volume?_method=PATCH" method="POST">
+            <table class="table responsive-tabe volume-table table-hover w-100 mb-5">
+                <thead>
+                    <tr>
+                        <th class="text-align pb-3 pt-3">Category</th>
+                        <th>Selection</th>
+                        <th class="text-center">Adjustment</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                    <tr>
+                        <td class="pb-3 pt-3">Geschlecht</td>
+                        <td data-cell="Geschlecht">
+                            <select name="gender" id="gender-selector" class="transparent-input">
+                                <option value="männlich" <%= userData?.gender === "männlich" ? "selected" : "" %>>männlich</option>
+                                <option value="weiblich" <%= userData?.gender === "weiblich" ? "selected" : "" %>>weiblich</option>
+                              </select>
+                        </td>
+                        <td><input type="number" value="3" class="transparent-input text-center gender-adjust" disabled></td>
+                    </tr>
+                    <tr>
+                        <td class="pb-3 pt-3">Körpergröße in [cm]</td>
+                        <td data-cell="Körpergröße"><input type="number" name="bodyheight" id="bodyheight" class="transparent-input" value="<%= userData?.bodyHeight %>"  placeholder="Körpergröße eintragen"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center bodyheight-adjust" disabled></td>
+                    </tr>
+                    <tr>
+                        <td class="pb-3 pt-3">Körpergewicht ing [kg]</td>
+                        <td data-cell="Körpergewicht"><input type="number" name="bodyweight" id="bodyweight" class="transparent-input" value="<%= userData?.bodyWeight %>" placeholder="Körpergewicht eintragen"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center bodyweight-adjust" disabled></td>
+                    </tr>
+                    <tr>
+                        <td class="pb-3 pt-3">Alter [Jahre]</td>
+                        <td data-cell="Alter"><input type="number" name="age" id="age" class="transparent-input" value="<%= userData?.age %>" placeholder="Wie alt bist du?"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center age-adjust" disabled></td>
+                    </tr>
+                    <tr>
+                        <td class="pb-3 pt-3">Trainingserfahrung [Jahre]</td>
+                        <td data-cell="Trainingserfahrung [Jahre]"><input type="number" name="trainingExperience" id="trainingExperience" class="transparent-input" value="<%= userData?.trainingExperience %>" placeholder="Wie viele Jahre trainierst du schon?"></td>
+                        <td><input type="number" value="3" class="transparent-input text-center experience-adjust" disabled></td>
+                    </tr>
+                    <tr>
+                        <td class="pb-3 pt-3">Ernährung</td>
+                        <td data-cell="Ernährung">
+                            <select name="nutrition" id="nutrition" class="transparent-input ">
+                                <option value="gut" <%= userData?.nutrition === "gut" ? "selected" : "" %>>Kalorienerhalt</option>
+                                <option value="optimal" <%= userData?.nutrition === "optimal" ? "selected" : "" %>>Kalorienüberschuss</option>
+                                <option value="schlecht" <%= userData?.nutrition === "schlecht" ? "selected" : "" %>>Kaloriendefizit</option>
+                            </select>
+                        </td>
+                        <td><input type="number" value="3" class="transparent-input text-center nutrition-adjust" disabled></td>
+                    </tr>
+                    <tr>
+                        <td class="pb-3 pt-3">Schlafqualität</td>
+                        <td data-cell="Schlafqualität">
+                            <select name="sleep" id="sleep" class="transparent-input ">
+                                <option value="gut" <%= userData?.sleep === "gut" ? "selected" : "" %>>&lt; 7 Stunden / Nacht</option>
+                                <option value="optimal" <%= userData?.sleep === "optimal" ? "selected" : "" %>>7-8 Stunden / Nacht</option>
+                                <option value="schlecht" <%= userData?.sleep === "schlecht" ? "selected" : "" %>>8h Stunden / Nacht</option>
+                            </select>
+                        </td>
+                        <td><input type="number" value="3" class="transparent-input text-center sleep-adjust" disabled></td>
+                    </tr>
+                    <tr>
+                        <td class="pb-3 pt-3">Stress</td>
+                        <td data-cell="Stress">
+                            <select name="stress" id="stress" class="transparent-input ">
+                                <option value="mittel" <%= userData?.stress === "mittel" ? "selected" : "" %>>mittel</option>
+                                <option value="niedrig" <%= userData?.stress === "niedrig" ? "selected" : "" %>>niedrig</option>
+                                <option value="hoch" <%= userData?.stress === "hoch" ? "selected" : "" %>>hoch</option>
+                            </select>
+                        </td>
+                        <td><input type="number" value="3" class="transparent-input text-center stress-adjust" disabled></td>
+                    </tr>
+                    <tr>
+                        <td class="pb-3 pt-3">Manuelle Anpassung</td>
+                        <td data-cell="Manuelle Anpassung">
+                            <select name="manual" id="manual" class="transparent-input ">
+                                <option value="0" <%= userData?.manual === 0 ? "selected" : "" %>>0</option>
+                                <option value="-5" <%= userData?.manual === -5 ? "selected" : "" %>>-5</option>
+                                <option value="-4" <%= userData?.manual === -4 ? "selected" : "" %>>-4</option>
+                                <option value="-3" <%= userData?.manual === -3 ? "selected" : "" %>>-3</option>
+                                <option value="-2" <%= userData?.manual === -2 ? "selected" : "" %>>-2</option>
+                                <option value="-1" <%= userData?.manual === -1 ? "selected" : "" %>>-1</option>
+                                <option value="1" <%= userData?.manual === 1 ? "selected" : "" %>>1</option>
+                                <option value="2" <%= userData?.manual === 2 ? "selected" : "" %>>2</option>
+                                <option value="3" <%= userData?.manual === 3 ? "selected" : "" %>>3</option>
+                                <option value="4" <%= userData?.manual === 4 ? "selected" : "" %>>4</option>
+                                <option value="5" <%= userData?.manual === 5 ? "selected" : "" %>>5</option>        
+                            </select>
+                        </td>
+                        <td><input type="number" value="3" class="transparent-input text-center manual-adjust" disabled></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="top-border">
+                        <td class="font-weight-bold pt-2 cpb-3 pt-3">Anpassung</td>
+                        <td></td>
+                        <td data-cell="Anpassung"><input type="number" value="3" class="transparent-input text-ce result-adjust" disabled></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <table id="volume-recommandation-table" class="table responsive-tabe volume-table table-hover w-100 mt-5 mb-4 text-center">
+                <caption>Volumenempfehlung - Hypertrophiephase</caption>
+                <thead>
+                    <tr>
+                        <!-- tooltips !!!-->
+                        <th class="text-left">Übung</th>
+                        <th>MEV</th>
+                        <th>MRV</th>
+                        <th>Median</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-cell="Exercise" class="text-uppercase text-left">Squat</td>
+                        <td data-cell="MEV"><input type="number" class="squat-mev transparent-input text-center" name="squatMEV" value="7.5"></td>
+                        <td data-cell="MRV"><input type="number" value="14" class="squat-mrv transparent-input text-center" name="squatMRV"></td>
+                        <td class="squat-median" data-cell="Median">11</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Exercise" class="text-uppercase text-left">BENCH</td>
+                        <td data-cell="MEV"><input type="number" value="9" class="bench-mev transparent-input text-center" name="benchMEV"></td>
+                        <td data-cell="MRV"><input type="number" value="17" class="bench-mrv transparent-input text-center" name="benchMRV"></td>
+                        <td class="bench-median" data-cell="Median">13</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Exercise" class="text-uppercase text-left">DEADLIFT</td>
+                        <td data-cell="MEV"><input type="number" value="5.5" class="deadlift-mev transparent-input text-center" name="deadliftMEV"></td>
+                        <td data-cell="MRV"><input type="number" value="9" class="deadlift-mrv transparent-input text-center" name="deadliftMRV"></td>
+                        <td class="deadlift-median" data-cell="Median">7</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+            <input type="submit" class="btn btn-dark">
+
+    </form>
+</div>
+
+<script type="module" src="/ts/sendOnlyChangedData.js"></script>
+<script type="module" src="/ts/volume/volume.js"></script>

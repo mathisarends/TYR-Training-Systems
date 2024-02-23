@@ -16,7 +16,7 @@ interface DecodedToken {
 }
 
 export function getLoginPage(req: Request, res: Response) {
-  res.render("login", { header: false, footer: false, defaultLayout: false, ENVIRONMENT: process.env.NODE_ENV});
+  res.render("login", { header: false, footer: false, defaultLayout: false, ENVIRONMENT: process.env.NODE_ENV });
 }
 
 // uses passport middleware

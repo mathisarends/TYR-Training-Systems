@@ -1,0 +1,34 @@
+/* stacking table if there are two many td elements*/
+@media (max-width: 768px) {
+    .responsive-tabe td {
+        display: grid;
+        grid-template-columns: 20ch auto;
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
+
+    .responsive-tabe th {
+        display: none
+    }
+
+    .responsive-tabe tr td:nth-of-type(1), 
+    .responsive-tabe tr td:nth-of-type(3) {
+        display: none;
+    }
+
+    .responsive-tabe tfoot tr td:nth-of-type(2) {
+        display: none;
+    }
+
+    .responsive-tabe tfoot tr td:nth-of-type(3) {
+        display: grid;
+        grid-template-columns: 20ch auto;
+    }
+
+    .responsive-tabe td::before {
+        content: attr(data-cell) ": ";
+    }
+
+
+
+}

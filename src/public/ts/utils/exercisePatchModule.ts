@@ -4,7 +4,7 @@ export function initializeExercisePatch(callback: (data: ApiData) => void) {
   const changedData: ApiData = {};
 
   document
-    .querySelectorAll<HTMLInputElement | HTMLSelectElement>("input, select")
+    .querySelectorAll<HTMLInputElement | HTMLSelectElement>("input:not([disabled]), select:not([disabled])")
     .forEach((input) => {
       input.addEventListener("change", () => {
         changedData[input.name] = input.value;
@@ -35,9 +35,18 @@ export function sendChangedData(
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // Hier möchte ich auch lieber mit einem modal arbeiten, statt die seite neu zu laden 
+      if (fetchUrl === "training/create") {
+        window.location.href = "/training";
+      } else { // Normallfall
+        //@ts-ignore
+        $('.modal').modal('show');
 
-      window.location.href = fetchUrl; // refresh page
+        //@ts-ignore
+        setTimeout(() => $('.modal').modal('hide'), 3000);
+      }
+
+
+
     })
     .catch((error) => {
       console.error("Fetch error:", error);
