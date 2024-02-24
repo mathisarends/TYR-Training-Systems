@@ -57,6 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
         }
 
+        const changeEvent = new Event("change");
+
+        bodyheightInput.dispatchEvent(changeEvent);
+        bodyweightInput.dispatchEvent(changeEvent);
+
         calcVolumeAdjustment();
         calcIndividualizedVolume(parseInt(genderAdjustField.value), currentBlockType);
     });
