@@ -3,6 +3,7 @@ import { handleDefaultValuesByCategory } from "./dsiplayDefaultSetSchema.js";
 import { handlePlaceholderCategory } from "./removePlaceholder.js";
 import { initializeRPEValidation } from "./rpeInputs.js";
 import { initializeEstMaxCalculation } from "./calcBackoff.js";
+import {initializeAddNeExercise} from "./addNewExercise.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -13,5 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     handlePlaceholderCategory();
     initializeRPEValidation();
     initializeEstMaxCalculation();
+    initializeAddNeExercise();
 
   });
