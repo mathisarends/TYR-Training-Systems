@@ -1,42 +1,49 @@
 import { checkWindowSize } from "./windowSizing.js";
 import { addSwipeHandlers } from "../utils/swipeHandler.js";
 import { calcIndividualizedVolume } from "./calcIndividualizedVolume.js";
-import { capitalizeFirstLetter } from "../../generic/capitalizeFirstLetter.js";
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    checkWindowSize();     // Überprüfe die Fenstergröße beim Laden der Seite für css mit bootstrap
+    checkWindowSize();     // checks window size initially in order to apply the right style for bootstrap
     window.addEventListener("resize", checkWindowSize);
 
     let currentBlockType = "hypertrophie";
 
-    function handleSwipeLeft() {
+    /**
+     * Handles the swipe action by toggling the current block type between "hypertrophie" and "kraft".
+     * Additionally, it triggers the toggleCaption function and dispatches a change event on the genderSelect element. in order to update all volume recommandations
+     */
+    function handleSwipe() {
         currentBlockType = currentBlockType === "hypertrophie" ? "kraft" : "hypertrophie";
-
-        //const volumeRecommandationTableCaption = document.getElementById("volume-recommandation-table")!;
-        //volumeRecommandationTableCaption.textContent = `Volumenempfehlung in der ${capitalizeFirstLetter(currentBlockType)}`;
-        
-        const event = new Event("change");
-        genderSelect.dispatchEvent(event);
-    } 
-
-    // fix this
-
-    function handleSwipeRight() {
-        currentBlockType = currentBlockType === "hypertrophie" ? "kraft" : "hypertrophie";
-
-        //const volumeRecommandationTableCaption = document.getElementById("volume-recommandation-table")!;
-        //volumeRecommandationTableCaption.textContent = `Volumenempfehlung - ${capitalizeFirstLetter(currentBlockType)}`;
-        
-        const event = new Event("change");
-        genderSelect.dispatchEvent(event);
+        toggleCaption();
+        genderSelect.dispatchEvent(new Event("change"));
     }
 
+    /**
+     * Toggles the caption text content of the volume recommendation table based on the current training phase.
+     * If the current phase is the hypertrophie phase, it updates the caption to the kraft phase, and vice versa.
+     */
+    function toggleCaption() {
+
+        const trainingPhases = [
+            "Hypertrophiephase",
+            "Kraftphase"
+        ]
+
+        const volumeRecommandationTableCaption = document.getElementById("volume-recommandation-table-caption")!;
+        const isVolumePhase = volumeRecommandationTableCaption.textContent?.includes("Hypertrophiephase");
+
+        if (isVolumePhase) {
+            volumeRecommandationTableCaption.textContent = `Volumenempfehlung - ${trainingPhases[1]}`;
+        } else {
+            volumeRecommandationTableCaption.textContent = `Volumenempfehlung - ${trainingPhases[0]}`
+        }
+    }
 
     const volumeRecommandationTableId = "volume-recommandation-table";
-    addSwipeHandlers(volumeRecommandationTableId, handleSwipeLeft, handleSwipeRight);
-
-
+    addSwipeHandlers(volumeRecommandationTableId, handleSwipe, handleSwipe); // generic swipe handler logic
 
     const genderSelect = document.getElementById("gender-selector") as HTMLSelectElement;
     const genderAdjustField = document.querySelector(".gender-adjust") as HTMLInputElement;

@@ -22,8 +22,6 @@ export class FriendCardModule {
                 this.handlePreSelect(friendCard);
                 this.showAddFriendButton();
 
-
-
             })
         })
 
