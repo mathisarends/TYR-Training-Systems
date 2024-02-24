@@ -36,6 +36,8 @@ async function handleVolumePatch(req: Request, res: Response) {
 
     await UserData.save();
 
+    // TODO implement actual volume recommandation for S,B, D and other exercises
+
     res.status(200).json({});
   } catch (error) {
     console.log(

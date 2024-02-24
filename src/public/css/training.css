@@ -1,0 +1,18 @@
+.col {
+    transition: transform 0.3s ease-in-out; /* Übergangseigenschaft hinzufügen */
+}
+
+.col:hover {
+    transform: scale(0.9875);
+}
+
+/* for activation styling */
+
+.active {
+    transition: transform 0.3s ease-in-out; /* Übergangseigenschaft für Aktivierung hinzufügen */
+    transform: scale(0.975);
+}
+
+.small-white-border {
+    border-color: #e1e1e1; /* Ersetze dies mit der gewünschten Hover-Farbe */
+}

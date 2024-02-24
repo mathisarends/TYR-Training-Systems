@@ -1,0 +1,127 @@
+<div class="container pt-4 pb-4">
+
+    <!-- einaml über user.squatMax eigenschft etc. reinladen! -->
+    <input id="userMaxSquat" type="hidden" name="maxSquat" value="<%= 100 %>">
+    <input id="userMaxBench" type="hidden" name="maxBench" value="<%= 200 %>">
+    <input id="userMaxDeadlift" type="hidden" name="maxDeadlift" value="<%= 300 %>">
+
+    <form action="#">
+        <!-- for timer logic -->
+        <% for (let i=0; i < exerciseCategories.length; i++) { %>
+            <% const category=exerciseCategories[i]; %>
+                <input class="category-pause-time-input" type="hidden" value="<%= categoryPauseTimes[category] %>">
+                <input class="category-default-sets-input" type="hidden"
+                    value="<%= defaultRepSchemeByCategory[category].defaultSets %>">
+                <input class="category-default-reps-input" type="hidden"
+                    value="<%= defaultRepSchemeByCategory[category].defaultReps %>">
+                <input class="category-default-rpe-input" type="hidden"
+                    value="<%= defaultRepSchemeByCategory[category].defaultRPE %>">
+                <% } %>
+
+
+                    <% for (let i=1; i <=trainingWeek.trainingDays.length; i++) { %>
+                        <table class="table table-hover training-table responsive-tabe caption-top mb-4">
+                            <caption class="text-center text-uppercase">
+                                <%= trainingPlan.title %> W1D<%= i %>
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Exercise</th>
+                                    <th scope="col" class="text-center">Sets</th>
+                                    <th scope="col" class="text-center">Reps</th>
+                                    <th scope="col" class="text-center">Weight</th>
+                                    <th scope="col" class="text-center">RPE</th>
+                                    <th scope="col" class="text-center">@RPE</th>
+                                    <th scope="col" class="text-center">Est. Max</th>
+                                    <th scope="col">Notes</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <!-- Erstmal 8 hartkodiert. -->
+                                <% for (let k=1; k <=8; k++) { %>
+                                    <tr>
+                                        <% const selectedCategory="Squat" %>
+                                            <% const selectedExercise="Lowbar-Squat" %>
+
+                                                <td data-cell="Category">
+                                                    <select name="day<%=i%>_exercise<%=k%>_category"
+                                                        class="exercise-category-selector transparent-input w-100">
+                                                        <% for (const category of exerciseCategories) { %>
+                                                            <option value="<%= category %>"
+                                                                <%=selectedCategory===category ? 'selected' : '' %>
+                                                                >
+                                                                <%= category %>
+                                                            </option>
+                                                            <% } %>
+                                                    </select>
+                                                </td>
+                                                <td data-cell="Exercise">
+                                                    <% for (const category in categorizedExercises) { %>
+
+                                                        <select name="day<%= i  %>_exercise<%= k  %>_exercise_name"
+                                                            class="exercise-name-selector transparent-input"
+                                                            <%=selectedCategory===category ? '' : 'disabled' %>
+                                                            style="<%= selectedCategory===category ? ''
+                                                                : 'display: none;' %>">
+                                                                <% for (const exerciseName of
+                                                                    categorizedExercises[category]) { %>
+                                                                    <option value="<%= exerciseName %>"
+                                                                        <%=selectedExercise===exerciseName ? 'selected'
+                                                                        : '' %>
+                                                                        >
+                                                                        <%= exerciseName %>
+                                                                    </option>
+                                                                    <% } %>
+                                                        </select>
+                                                        <% } %>
+                                                </td>
+                                                <td data-cell="Sets">
+                                                    <input type="number" class="transparent-input sets text-center"
+                                                        name="day<%= i %>_exercise<%= k %>_sets" value="3">
+                                                </td>
+                                                <td data-cell="Reps">
+                                                    <input type="number" class="transparent-input reps text-center"
+                                                        name="day<%= i %>_exercise<%= k %>_reps" value="10">
+                                                </td>
+                                                <td data-cell="Weight">
+                                                    <input type="number" class="transparent-input weight text-center"
+                                                        name="day<%= i %>_exercise<%= k %>_weight">
+                                                </td>
+                                                <td data-cell="RPE">
+                                                    <input type="number" class="transparent-input targetRPE text-center"
+                                                        name="day<%= i %>_exercise<%= k %>_targetRPE" value="7">
+                                                </td>
+                                                <td data-cell="@RPE">
+                                                    <input type="number" class="transparent-input actualRPE text-center"
+                                                        name="day<%= i %>_exercise<%= k %>_actualRPE" value="">
+                                                </td>
+                                                <td data-cell="Est. Max">
+                                                    <input type="number" class="transparent-input estMax text-center"
+                                                        readonly name="day<%= i %>_exercise<%= k %>_estMax">
+                                                </td>
+                                                <td data-cell="Notes">
+                                                    <input type="text" class="transparent-input workout-notes"
+                                                        name="day<%= i %>_exercise<%= k %>_workout-notes">
+                                                </td>
+                                    </tr>
+
+                                    <% } %>
+                            </tbody>
+                        </table>
+
+                        <div class="flex justify-content-space-between align-items-center">
+                            <button class="btn btn-primary add-new-exercise-button" style="margin: auto;">+</button>
+                        </div>
+
+                        <% } %>
+    </form>
+
+
+
+</div>
+
+<script type="module" src="ts/training/trainingPage/trainingPage.js"></script>

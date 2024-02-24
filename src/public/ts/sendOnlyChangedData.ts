@@ -3,7 +3,7 @@ import { ApiData } from "../../../interfaces/ApiData.js";
 
 let changedData: ApiData = {}; // Definiere changedData im höheren Kontext
 
-const path = window.location.pathname;
+let path = window.location.pathname;
 
 console.log("Hello bin eingebunden");
 

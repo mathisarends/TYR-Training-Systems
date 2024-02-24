@@ -107,5 +107,22 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+/* Verberge den Pfeil im Firefox */
+select {
+  -moz-appearance: none;
+  appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+}
+
+/* Verberge den Pfeil in Chrome, Safari und Edge */
+select::-ms-expand {
+  display: none;
+}
+
+select::-webkit-select {
+  display: none;
+}
   
 

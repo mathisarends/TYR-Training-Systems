@@ -424,13 +424,12 @@ export function prepareExercisesData(user: any) {
         }
         // TODO: wo kommt das her?
       } else {
-        console.error("Exercise or exercise category is undefined:", exercise);
+        /* console.error("Exercise or exercise category is undefined:", exercise); */
       }
     }
   }
 
   return {
-    userID: user.id,
     exerciseCategories: Object.keys(categorizedExercises),
     categoryPauseTimes,
     categorizedExercises,

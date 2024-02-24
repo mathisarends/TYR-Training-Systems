@@ -1,12 +1,42 @@
 import { checkWindowSize } from "./windowSizing.js";
+import { addSwipeHandlers } from "../utils/swipeHandler.js";
+import { calcIndividualizedVolume } from "./calcIndividualizedVolume.js";
+import { capitalizeFirstLetter } from "../../generic/capitalizeFirstLetter.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Überprüfe die Fenstergröße beim Laden der Seite
-    checkWindowSize();
-
-    // Überprüfe die Fenstergröße bei Änderungen
+    checkWindowSize();     // Überprüfe die Fenstergröße beim Laden der Seite für css mit bootstrap
     window.addEventListener("resize", checkWindowSize);
+
+    let currentBlockType = "hypertrophie";
+
+    function handleSwipeLeft() {
+        currentBlockType = currentBlockType === "hypertrophie" ? "kraft" : "hypertrophie";
+
+        //const volumeRecommandationTableCaption = document.getElementById("volume-recommandation-table")!;
+        //volumeRecommandationTableCaption.textContent = `Volumenempfehlung in der ${capitalizeFirstLetter(currentBlockType)}`;
+        
+        const event = new Event("change");
+        genderSelect.dispatchEvent(event);
+    } 
+
+    // fix this
+
+    function handleSwipeRight() {
+        currentBlockType = currentBlockType === "hypertrophie" ? "kraft" : "hypertrophie";
+
+        //const volumeRecommandationTableCaption = document.getElementById("volume-recommandation-table")!;
+        //volumeRecommandationTableCaption.textContent = `Volumenempfehlung - ${capitalizeFirstLetter(currentBlockType)}`;
+        
+        const event = new Event("change");
+        genderSelect.dispatchEvent(event);
+    }
+
+
+    const volumeRecommandationTableId = "volume-recommandation-table";
+    addSwipeHandlers(volumeRecommandationTableId, handleSwipeLeft, handleSwipeRight);
+
+
 
     const genderSelect = document.getElementById("gender-selector") as HTMLSelectElement;
     const genderAdjustField = document.querySelector(".gender-adjust") as HTMLInputElement;
@@ -28,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         calcVolumeAdjustment();
-        //calcIndividualizedVolume();
+        calcIndividualizedVolume(parseInt(genderAdjustField.value), currentBlockType);
     });
 
     const bodyheightInput = document.getElementById("bodyheight") as HTMLInputElement;
@@ -79,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         calcVolumeAdjustment();
-        //calcIndividualizedVolume();
+        calcIndividualizedVolume(parseInt(bodyheightAdjustField.value), currentBlockType);
     });
 
     const bodyweightInput = document.getElementById("bodyweight") as HTMLInputElement;
@@ -130,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         calcVolumeAdjustment();
-        //calcIndividualizedVolume();
+        calcIndividualizedVolume(parseInt(bodyweightAdjustField.value), currentBlockType);
     });
 
     const ageInput = document.getElementById("age") as HTMLInputElement;
@@ -158,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         calcVolumeAdjustment();
-        //calcIndividualizedVolume();
+        calcIndividualizedVolume(parseInt(ageAdjustField.value), currentBlockType);
     });
 
 
@@ -187,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         calcVolumeAdjustment();
-        //calcIndividualizedVolume();
+        calcIndividualizedVolume(parseInt(trainingExperienceAdjustField.value), currentBlockType);
     });
 
     const nutritionSelect = document.getElementById("nutrition") as HTMLInputElement;
@@ -209,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         calcVolumeAdjustment();
-        //calcIndividualizedVolume();
+        calcIndividualizedVolume(parseInt(nutritionAdjustField.value), currentBlockType);
     });
 
     const sleepSelect = document.getElementById("sleep") as HTMLInputElement;
@@ -231,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         calcVolumeAdjustment();
-        //calcIndividualizedVolume();
+        calcIndividualizedVolume(parseInt(sleepAdjustField.value), currentBlockType);
     });
 
     const stressSelect = document.getElementById("stress") as HTMLInputElement;
@@ -253,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         calcVolumeAdjustment();
-        //calcIndividualizedVolume();
+        calcIndividualizedVolume(parseInt(stressAdjustField.value), currentBlockType);
     });
 
     const manualSelect = document.getElementById("manual") as HTMLInputElement;
@@ -281,6 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
         }
         calcVolumeAdjustment();
+        calcIndividualizedVolume(parseInt(manualAdjustField.value), currentBlockType);
     });
 
 
