@@ -1,0 +1,4 @@
+.card-text {
+    max-height: 100px; /* Hier kannst du die maximale Höhe definieren */
+    overflow: hidden;
+}

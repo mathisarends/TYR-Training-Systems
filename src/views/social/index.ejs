@@ -1,0 +1,34 @@
+<div class="container pt-4 pb-3">
+
+  <input type="text" class="form-control" id="friendSearchBar" placeholder="Search for friends">
+
+  <div class="row row-cols-1 row-cols-md-5 g-4 mt-3">
+
+    <% simplifiedUsers.forEach((user)=> { %>
+      <div class="col">
+        <div class="card h-100">
+          <img src="images/profile-picture-placeholder.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= user.name %>
+            </h5>
+            <p class="card-text"><%= user.description || "Kraftsport Freund" %></p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Zuletzt online <%= user.lastActivity %></small>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+  </div>
+
+  <div class="visibility-hidden d-flex justify-content-center mt-3" id="add-friend-button">
+    <input type="hidden" value=""> <!--Hier wird die Id des zuletzt ausgewählten friends zwischengespeichert! -->
+    <button class="btn btn-primary">Add Friend</button>
+  </div>
+
+
+
+</div>
+
+<script type="module" src="ts/social/social.js"></script>
