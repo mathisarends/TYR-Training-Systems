@@ -32,4 +32,8 @@ export function addSwipeHandlers(elementId: string, onSwipeLeft: () => void, onS
 
         touchStartX = null;
     }
+
+        // Hier wird der Kontext explizit festgelegt
+        onSwipeLeft = onSwipeLeft.bind(null);
+        onSwipeRight = onSwipeRight.bind(null);
 }

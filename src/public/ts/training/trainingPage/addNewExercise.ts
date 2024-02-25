@@ -4,6 +4,8 @@ export function initializeAddNeExercise() {
     const addNewExerciseButtons = document.querySelectorAll(".add-new-exercise-button");
     const exerciseTables = document.querySelectorAll(".training-table");
 
+    console.log(addNewExerciseButtons);
+
     const url = window.location.href;
 
     // TEMPLATE ODER CUSTOM SEITE
@@ -12,7 +14,7 @@ export function initializeAddNeExercise() {
             e.preventDefault();
 
             const tableBody = exerciseTables[index].querySelector("tbody")!;
-            const tableRows = tableBody.querySelectorAll(".table-row.mainExercise");
+            const tableRows = tableBody.querySelectorAll("tr");
             const lastTr = tableRows[tableRows.length - 1];
 
             if (tableRows.length >= 12) {

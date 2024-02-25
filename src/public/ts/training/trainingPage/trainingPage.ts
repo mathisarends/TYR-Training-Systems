@@ -4,6 +4,7 @@ import { handlePlaceholderCategory } from "./removePlaceholder.js";
 import { initializeRPEValidation } from "./rpeInputs.js";
 import { initializeEstMaxCalculation } from "./calcBackoff.js";
 import {initializeAddNeExercise} from "./addNewExercise.js";
+import { SwitchDayView } from "./switchDayView.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -15,5 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeRPEValidation();
     initializeEstMaxCalculation();
     initializeAddNeExercise();
+
+    const switchDayView = new SwitchDayView();
 
   });
