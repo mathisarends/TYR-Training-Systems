@@ -1,5 +1,10 @@
 /* stacking table if there are two many td elements*/
+.training-table tr td input[type="number"] {
+    text-align: center;       
+}
+
 @media (max-width: 768px) {
+    /* responsive tabe is most generic */
     .responsive-tabe td {
         display: grid;
         grid-template-columns: 20ch auto;
@@ -11,25 +16,33 @@
         display: none
     }
 
-    .responsive-tabe tr td:nth-of-type(1), 
-    .responsive-tabe tr td:nth-of-type(3) {
-        display: none;
-    }
-
-    .responsive-tabe tfoot tr td:nth-of-type(2) {
-        display: none;
-    }
-
-    .responsive-tabe tfoot tr td:nth-of-type(3) {
-        display: grid;
-        grid-template-columns: 20ch auto;
-    }
-
     .responsive-tabe td::before {
         content: attr(data-cell) ": ";
+    }
+
+
+    .volume-table tr td:nth-of-type(1), 
+    .volume-table tr td:nth-of-type(3) {
+        display: none;
+    }
+
+    .volume-table tfoot tr td:nth-of-type(2) {
+        display: none;
+    }
+
+    .volume-table tfoot tr td:nth-of-type(3) {
+        display: grid;
+        grid-template-columns: 20ch auto;
     }
 
     .training-table tr {
         border-top: 2px solid black;
     }
+
+    .training-table tr td input[type="number"] {
+        text-align: left;
+    }
+
+
 }
+
