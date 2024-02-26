@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import dotenv from "dotenv";
+import { login } from './profileLogin';
 
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
@@ -7,15 +8,7 @@ if (process.env.NODE_ENV !== "production") {
 
 test.beforeEach(async ({ page }) => {
   // Login vor jedem Test
-  await page.goto(`localhost:8050/login`);
-  await page.getByPlaceholder('Username or Email').click();
-  await page.getByPlaceholder('Username or Email').fill('y');
-  await page.getByPlaceholder('***********').click();
-  await page.getByPlaceholder('***********').fill('y');
-  await page.getByRole('button', { name: 'Login' }).click();
-
-  // Warte auf den Redirect nach dem Login
-  await page.waitForURL('http://localhost:8050/');
+  await login(page);
 
 });
 
