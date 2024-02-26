@@ -55,6 +55,7 @@ export class ExercisePatchHandler {
           window.location.href = "/training";
         } else { // Normallfall
           this.clearChangedData();
+          console.log(this.changedData);
           //@ts-ignore
           $('.modal').modal('show');
 

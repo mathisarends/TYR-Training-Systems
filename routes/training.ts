@@ -86,15 +86,18 @@ router.patch("/trainingplan/:id", checkAuthenticated, async (req, res) => {
             const trainingDay: TrainingDayInterface = trainingWeek.trainingDays[dayIndex - 1];
             console.log(trainingDay);
             
-            let exercise: ExerciseInterface = trainingDay.exercises[exerciseIndex - 1];
+            let exercise: Partial<ExerciseInterface> = trainingDay.exercises[exerciseIndex - 1];
             
             if (!exercise) {
                 const newExercise = createExerciseObject(fieldName, fieldValue);
+
+                //@ts-ignore
                 trainingDay.exercises.push(newExercise);
 
                 exercise = newExercise;
             }
 
+            //@ts-ignore
             changeExercise(fieldName, fieldValue, exercise);
         })
 
@@ -107,16 +110,12 @@ router.patch("/trainingplan/:id", checkAuthenticated, async (req, res) => {
     }
 })
 
-function createExerciseObject(fieldName : string, fieldValue : string) {
+function createExerciseObject(fieldName : string, fieldValue : string) : Partial<ExerciseInterface>{
     return {
+        // only string types
         category: fieldName.endsWith("category") ? fieldValue : "",
         exercise: "",
-        sets: 0,
-        reps: 0,
         weight: "",
-        targetRPE: 0,
-        actualRPE: 0,
-        estMax: 0,
         notes: "",
     };
 }

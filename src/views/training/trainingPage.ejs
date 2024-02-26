@@ -20,6 +20,7 @@
 
 
                     <% for (let i=1; i <=trainingWeek.trainingDays.length; i++) { %>
+                        <% const trainingDay = trainingWeek.trainingDays[i - 1]; %>
                         <table class="table table-hover training-table responsive-tabe caption-top mb-4" <%= i !== 1 ? "hidden" : "" %>>
                             <caption class="text-center text-uppercase">
                                 <svg class="add-new-exercise-button bt" xmlns="http://www.w3.org/2000/svg" width="24"
@@ -49,11 +50,14 @@
                             <tbody>
 
                                 <!-- Erstmal 8 hartkodiert. -->
-                                <% for (let k=1; k <=1; k++) { %>
-                                    <tr>
-                                        <% const selectedCategory="Squat" %>
-                                            <% const selectedExercise="Lowbar-Squat" %>
+                                <% const exerciseIterations = trainingDay.exercises.length || 1%>
 
+                                <% for (let k=1; k <= exerciseIterations; k++) { %>
+                                    <% const exercise = trainingDay.exercises[k - 1]; %>
+                                    <% const selectedCategory = exercise?.category ?? "- Bitte Auswählen -"; %>
+                                    <% const selectedExercise = exercise?.exercise ?? "Placeholder"; %>
+
+                                    <tr>
                                                 <td data-cell="Category">
                                                     <select name="day<%=i%>_exercise<%=k%>_category"
                                                         class="exercise-category-selector transparent-input w-100">
@@ -88,31 +92,31 @@
                                                 </td>
                                                 <td data-cell="Sets">
                                                     <input type="number" class="transparent-input sets"
-                                                        name="day<%= i %>_exercise<%= k %>_sets" value="3">
+                                                        name="day<%= i %>_exercise<%= k %>_sets" value="<%= exercise?.sets %>">
                                                 </td>
                                                 <td data-cell="Reps">
                                                     <input type="number" class="transparent-input reps"
-                                                        name="day<%= i %>_exercise<%= k %>_reps" value="<%= i %>">
+                                                        name="day<%= i %>_exercise<%= k %>_reps" value="<%= exercise?.reps %>">
                                                 </td>
                                                 <td data-cell="Weight">
                                                     <input type="number" class="transparent-input weight"
-                                                        name="day<%= i %>_exercise<%= k %>_weight">
+                                                        name="day<%= i %>_exercise<%= k %>_weight" value="<%= exercise?.weight %>">
                                                 </td>
                                                 <td data-cell="RPE">
                                                     <input type="number" class="transparent-input targetRPE"
-                                                        name="day<%= i %>_exercise<%= k %>_targetRPE" value="7">
+                                                        name="day<%= i %>_exercise<%= k %>_targetRPE" value="<%= exercise?.targetRPE %>">
                                                 </td>
                                                 <td data-cell="@RPE">
                                                     <input type="number" class="transparent-input actualRPE"
-                                                        name="day<%= i %>_exercise<%= k %>_actualRPE" value="">
+                                                        name="day<%= i %>_exercise<%= k %>_actualRPE" value="<%= exercise?.actualRPE %>">
                                                 </td>
                                                 <td data-cell="Est. Max">
                                                     <input type="number" class="transparent-input estMax"
-                                                        readonly name="day<%= i %>_exercise<%= k %>_estMax">
+                                                        readonly name="day<%= i %>_exercise<%= k %>_estMax" value="<%= exercise?.estMax %>">
                                                 </td>
                                                 <td data-cell="Notes">
                                                     <input type="text" class="transparent-input workout-notes"
-                                                        name="day<%= i %>_exercise<%= k %>_workout-notes">
+                                                        name="day<%= i %>_exercise<%= k %>_workout-notes" value="<%= exercise?.notes %>">
                                                 </td>
                                     </tr>
 
