@@ -78,16 +78,15 @@ router.patch("/trainingplan/:id", checkAuthenticated, async (req, res) => {
         const changedData : StringKeyObject  = req.body;
 
         Object.entries(changedData).forEach(([fieldName, fieldValue]) => {
-            console.log(fieldName + " + " + fieldValue);
-
             const dayIndex = parseInt(fieldName.charAt(3));
             const exerciseIndex = parseInt(fieldName.charAt(13));
-            
             const trainingDay: TrainingDayInterface = trainingWeek.trainingDays[dayIndex - 1];
-            console.log(trainingDay);
             
             let exercise: Partial<ExerciseInterface> = trainingDay.exercises[exerciseIndex - 1];
             
+
+            // hier vielleicht die ersten zeichen ausschneiden und gucken ob so ein eintrag die kategorie 
+            // - Bitte Auswählen - hat dann die Übung nicht neu erstellen!
             if (!exercise) {
                 const newExercise = createExerciseObject(fieldName, fieldValue);
 
@@ -98,7 +97,7 @@ router.patch("/trainingplan/:id", checkAuthenticated, async (req, res) => {
             }
 
             //@ts-ignore
-            changeExercise(fieldName, fieldValue, exercise);
+            changeExercise(fieldName, fieldValue, exercise, trainingDay, exerciseIndex);
         })
 
         await user.save();
@@ -120,7 +119,15 @@ function createExerciseObject(fieldName : string, fieldValue : string) : Partial
     };
 }
 
-function changeExercise(fieldName: string, fieldValue: string, exercise: ExerciseInterface) {
+function changeExercise(fieldName: string, fieldValue: string, exercise: ExerciseInterface, trainingDay : TrainingDayInterface, exerciseIndex : number) {
+
+    // zum löschen nachdem sie gelöscht wurde wird sie aber wieder neue erstellt!!! also funktioniert noch nicht
+    if (fieldName.endsWith("category") && fieldValue === "- Bitte Auswählen -") {
+        trainingDay.exercises.splice(exerciseIndex, 1);
+        console.log("exercises", trainingDay.exercises);
+        console.log("gelöscht");
+        return;
+    }
 
     switch (true) {
         case fieldName.endsWith("category"):
