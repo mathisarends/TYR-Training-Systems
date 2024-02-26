@@ -1,12 +1,11 @@
 // createTrainingPlanModule.js
 
 import { validateInput } from '../utils/validateInput.js';
-import { sendChangedData } from '../utils/exercisePatchModule.js';
 
-import { ApiData } from '../../../../interfaces/ApiData.js';
+import { ExercisePatchHandler } from '../utils/exercisePatchModule.js';
 
 export class CreateTrainingPlanModule {
-  constructor(private changedData: ApiData) {
+  constructor() {
     this.initializeCreateTrainingPlanModule();
   }
 
@@ -34,11 +33,8 @@ export class CreateTrainingPlanModule {
     });
   }
 
-  setData(newData : ApiData) {
-    this.changedData = newData;
-  }
-
   sendData(url : string) {
-    sendChangedData(url, 'POST', this.changedData);
+    const exercisePatchHandler = ExercisePatchHandler.getInstance();
+    exercisePatchHandler.sendChangedData(url, 'POST');
   }
 }

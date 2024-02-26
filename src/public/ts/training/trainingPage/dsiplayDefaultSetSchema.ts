@@ -59,6 +59,13 @@ export function handleDefaultValuesByCategory() {
             repsInput.value = "";
             targetRPEInput.value = "";
           }
+
+          const changeEvent = new Event("change", { bubbles: true });
+
+          setsInput.dispatchEvent(changeEvent);
+          repsInput.dispatchEvent(changeEvent);
+          targetRPEInput.dispatchEvent(changeEvent);
+
         }
       }
     });

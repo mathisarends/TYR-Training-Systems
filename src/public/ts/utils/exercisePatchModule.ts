@@ -1,54 +1,72 @@
 import { ApiData } from "../../../../interfaces/ApiData.js";
 
-export function initializeExercisePatch(callback: (data: ApiData) => void) {
-  const changedData: ApiData = {};
+export class ExercisePatchHandler {
+  private static instance: ExercisePatchHandler;
+  private changedData: ApiData = {};
 
-  document
-    .querySelectorAll<HTMLInputElement | HTMLSelectElement>("input:not([disabled]), select:not([disabled])")
-    .forEach((input) => {
-      input.addEventListener("change", () => {
-        changedData[input.name] = input.value;
-        console.log(
-          `Feld ${input.name} wurde geändert. Neuer Wert: ${input.value}`
-        );
+  private constructor() {
+    this.initialize();
+  }
 
-        // Rufe die callback-Funktion auf und übergebe das aktualisierte changedData
-        callback(changedData);
+  public static getInstance(): ExercisePatchHandler {
+    if (!ExercisePatchHandler.instance) {
+      ExercisePatchHandler.instance = new ExercisePatchHandler();
+    }
+    return ExercisePatchHandler.instance;
+  }
+
+  initialize(): void {
+    const form = document.querySelector("form");
+  
+    if (form) {
+      form.addEventListener("change", (event) => {
+        const target = event.target as HTMLInputElement | HTMLSelectElement;
+  
+        // Überprüfe, ob das auslösende Element ein "input" oder "select" ist und nicht disabled
+        if (target.matches("input:not([disabled]), select:not([disabled])")) {
+          this.handleInputChange(target);
+        }
       });
-    });
-}
+    } else {
+      console.error("Das übergeordnete Element wurde nicht gefunden.");
+    }
+  }
+  
+  public handleInputChange(inputElement: HTMLInputElement | HTMLSelectElement): void {
+    this.changedData[inputElement.name] = inputElement.value;
+  
+    console.log(this.changedData);
+  }
 
-export function sendChangedData(
-  fetchUrl: string,
-  method: string,
-  data: ApiData
-) {
-  fetch(fetchUrl, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      if (fetchUrl === "training/create") {
-        window.location.href = "/training";
-      } else { // Normallfall
-        //@ts-ignore
-        $('.modal').modal('show');
-
-        //@ts-ignore
-        setTimeout(() => $('.modal').modal('hide'), 3000);
-      }
-
-
-
+  public sendChangedData(fetchUrl: string, method: string): void {
+    fetch(fetchUrl, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(this.changedData),
     })
-    .catch((error) => {
-      console.error("Fetch error:", error);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        if (fetchUrl === "training/create") {
+          window.location.href = "/training";
+        } else { // Normallfall
+          //@ts-ignore
+          $('.modal').modal('show');
+
+          //@ts-ignore
+          setTimeout(() => $('.modal').modal('hide'), 3000);
+        }
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+      });
+  }
+
+  public getChangedData(): ApiData {
+    return this.changedData;
+  }
 }

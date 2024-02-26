@@ -26,7 +26,7 @@ router.get("/", checkAuthenticated, (req, res) => {
     })
 })
 
-// TODO hier noch weekId finden
+// TODO: wir betracheten hier bislang nur weekId aber wollen das eingentlich dynamisch gestalten
 router.get("/trainingplan/:id", checkAuthenticated, async (req, res) => {
     try {
         const user = res.locals.user;
@@ -48,6 +48,7 @@ router.get("/trainingplan/:id", checkAuthenticated, async (req, res) => {
             carousel: false,
             trainingPlan,
             trainingWeek,
+            planId,
 
             exerciseCategories,
             categoryPauseTimes,
@@ -61,6 +62,28 @@ router.get("/trainingplan/:id", checkAuthenticated, async (req, res) => {
         console.log("Es ist ein Fehler beim Aufrufen des Trainingsplans aufgetreten!", error);
     }
 })
+
+router.patch("/trainingplan/:id", checkAuthenticated, async (req, res) => {
+    try {
+        const user = res.locals.user;
+
+        const planId = req.params.id;
+        const trainingPlan = user.customPlans.id(planId);
+
+        const trainingWeek = trainingPlan.trainingWeeks[0];
+
+        
+
+        
+
+        
+
+
+    } catch (error) {
+        console.log("Es ist ein Fehler beim Aufrufen des Trainingsplans aufgetreten!", error);
+    }
+})
+
 
 router.delete("/delete/:id", checkAuthenticated, async (req, res) => {
 

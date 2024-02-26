@@ -1,4 +1,4 @@
-import { initializeExercisePatch, sendChangedData } from "../utils/exercisePatchModule.js";
+import { ExercisePatchHandler } from "../utils/exercisePatchModule.js";
 import { validateInput } from "../utils/validateInput.js";
 import { dispatchChangeEventOnAllInputs } from "../utils/dispatchChangeEventOnAllInputs.js";
 import { ApiData } from "../../../../interfaces/ApiData.js";
@@ -8,14 +8,8 @@ import { CreateTrainingPlanModule } from "./createTrainingPlanModule.js";
 import { initializeDeleteTrainingPlanModule } from "./deleteTrainingPlanModule.js";
 import { initializeEditTrainingPlanModule } from "./editTrainingPlanModule.js";
 
-let changedData: ApiData = {};
-
-const createTrainingPlanModule = new CreateTrainingPlanModule(changedData);
-
-initializeExercisePatch((data : ApiData) => {
-    changedData = data; // Aktualisiere changedData im höheren Kontext
-    createTrainingPlanModule.setData(data);
-});
+const exercisePatchHandler = ExercisePatchHandler.getInstance(); // new
+const createTrainingPlanModule = new CreateTrainingPlanModule();
 
 dispatchChangeEventOnAllInputs(); // because some inputs are preselected for better user experience
 

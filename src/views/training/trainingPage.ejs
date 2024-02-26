@@ -5,7 +5,7 @@
     <input id="userMaxBench" type="hidden" name="maxBench" value="<%= 200 %>">
     <input id="userMaxDeadlift" type="hidden" name="maxDeadlift" value="<%= 300 %>">
 
-    <form action="#">
+    <form action="training/trainingPlan/<%= planId %>?_method=PATCH" method="POST">
         <!-- for timer logic -->
         <% for (let i=0; i < exerciseCategories.length; i++) { %>
             <% const category=exerciseCategories[i]; %>
@@ -139,8 +139,11 @@
 
     </form>
 
+    <input type="submit" class="btn btn-dark">
+
 
 
 </div>
 
 <script type="module" src="ts/training/trainingPage/trainingPage.js"></script>
+<script type="module" src="ts/sendOnlyChangedData.js"></script>

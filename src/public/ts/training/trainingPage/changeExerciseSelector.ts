@@ -1,6 +1,7 @@
 // indexForCategory.js
 
 import { getIndexByCategory } from "./indexForCategory.js";
+import { ExercisePatchHandler } from "../../utils/exercisePatchModule.js";
 
 export function handleExerciseSelectors() {
   const displayedSelectors = document.querySelectorAll('.exercise-name-selector:not([style*="display: none"])') as NodeListOf<HTMLInputElement>;
@@ -24,7 +25,9 @@ export function handleExerciseSelectors() {
 
       if (tableRow) {
         // Suche alle exercise-name-selector in dieser Zeile
-        const exerciseNameSelectors = tableRow.querySelectorAll(".exercise-name-selector");
+        const exerciseNameSelectors = tableRow.querySelectorAll(".exercise-name-selector"); 
+
+        // es wird ja immer zuerst der erste Exercise name select angezeigt deswegen hier so möglích
 
         if (category === "- Bitte Auswählen -") {
           exerciseNameSelectors.forEach((selector: any) => {
@@ -38,6 +41,12 @@ export function handleExerciseSelectors() {
             selector.disabled = index !== getIndexByCategory(category);
           });
         }
+
+        const displaySelector = tableRow.querySelector('.exercise-name-selector:not([style*="display: none"])') as HTMLSelectElement;
+        const changeEvent = new Event("change", { bubbles: true });
+
+        displaySelector.dispatchEvent(changeEvent); // handled by event delegation
+
       }
     }
   });
