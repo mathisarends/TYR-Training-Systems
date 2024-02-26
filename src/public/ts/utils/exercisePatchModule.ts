@@ -54,6 +54,7 @@ export class ExercisePatchHandler {
         if (fetchUrl === "training/create") {
           window.location.href = "/training";
         } else { // Normallfall
+          this.clearChangedData();
           //@ts-ignore
           $('.modal').modal('show');
 
@@ -68,5 +69,9 @@ export class ExercisePatchHandler {
 
   public getChangedData(): ApiData {
     return this.changedData;
+  }
+
+  private clearChangedData() : void {
+    this.changedData = {};
   }
 }

@@ -2,6 +2,8 @@ export function initializeRPEValidation() {
     const MIN_RPE = 5;
     const MAX_RPE = 10;
 
+    const changeEvent = new Event("change", { bubbles: true });
+
     function validateRPE(rpe: number, rpeInput: HTMLInputElement) {
         switch (true) {
             case rpe < MIN_RPE:
@@ -13,6 +15,7 @@ export function initializeRPEValidation() {
             default:
                 rpeInput.value = rpe.toString();
         }
+        rpeInput.dispatchEvent(changeEvent);
     }
 
     function updateWorkoutNotes(workoutNotes: HTMLInputElement, rpeDiff: number) {
@@ -21,6 +24,8 @@ export function initializeRPEValidation() {
         } else if (rpeDiff > 1) {
             workoutNotes.value += " undershoot ";
         }
+
+        workoutNotes.dispatchEvent(changeEvent);
     }
 
     document.addEventListener("change", e => {
@@ -41,6 +46,7 @@ export function initializeRPEValidation() {
 
             if (rpe === "") {
                 rpeInput.value = "";
+                rpeInput.dispatchEvent(changeEvent);
                 return;
             }
 
@@ -62,6 +68,7 @@ export function initializeRPEValidation() {
 
             if (numbers.some(isNaN)) { //if one of the values is not a number
                 rpeInput.value = "";
+                rpeInput.dispatchEvent(changeEvent);
                 return;
             }
 

@@ -19,6 +19,9 @@ export function initializeEstMaxCalculation() {
                         const estMaxInput = parentRow.querySelector(".estMax") as HTMLInputElement;
                         estMaxInput.value = estMax.toString();
 
+                        const changeEvent = new Event("change", { bubbles: true });
+                        estMaxInput.dispatchEvent(changeEvent);
+
                         const nextRow = parentRow.nextElementSibling!;
 
                         const exercise = (parentRow.querySelector('.exercise-name-selector:not([style*="display: none"])') as HTMLInputElement).value;
@@ -64,6 +67,9 @@ export function initializeEstMaxCalculation() {
             if (roundedValue - allTimeBestEstMax > 5) {
                 if (!workoutNotes.value.includes("uptrend")) {
                     workoutNotes.value = "uptrend " + workoutNotes.value;
+
+                    const changeEvent = new Event("change", { bubbles: true });
+                    workoutNotes.dispatchEvent(changeEvent);
                 }
             }
             return roundedValue;

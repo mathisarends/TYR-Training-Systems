@@ -9,6 +9,8 @@ import { prepareExercisesData } from "../controller/exerciseController.js";
 
 import { checkAuthenticated } from "../middleware/authMiddleware.js";
 import { formatCustomDate } from "../src/public/generic/formatDate.js";
+import { ApiData } from "../interfaces/ApiData.js";
+import { ExerciseInterface, TrainingDayInterface } from "../src/models/trainingDay.types.js";
 
 router.get("/", checkAuthenticated, (req, res) => {
 
@@ -72,17 +74,88 @@ router.patch("/trainingplan/:id", checkAuthenticated, async (req, res) => {
 
         const trainingWeek = trainingPlan.trainingWeeks[0];
 
-        
+        type StringKeyObject = { [key: string]: string };
+        const changedData : StringKeyObject  = req.body;
 
-        
+        Object.entries(changedData).forEach(([fieldName, fieldValue]) => {
+            console.log(fieldName + " + " + fieldValue);
 
-        
+            const dayIndex = parseInt(fieldName.charAt(3));
+            const exerciseIndex = parseInt(fieldName.charAt(13));
+            
+            const trainingDay: TrainingDayInterface = trainingWeek.trainingDays[dayIndex - 1];
+            console.log(trainingDay);
+            
+            let exercise: ExerciseInterface = trainingDay.exercises[exerciseIndex - 1];
+            
+            if (!exercise) {
+                const newExercise = createExerciseObject(fieldName, fieldValue);
+                trainingDay.exercises.push(newExercise);
 
+                exercise = newExercise;
+            }
+
+            changeExercise(fieldName, fieldValue, exercise);
+        })
+
+        await user.save();
+
+        res.status(200).json({});
 
     } catch (error) {
         console.log("Es ist ein Fehler beim Aufrufen des Trainingsplans aufgetreten!", error);
     }
 })
+
+function createExerciseObject(fieldName : string, fieldValue : string) {
+    return {
+        category: fieldName.endsWith("category") ? fieldValue : "",
+        exercise: "",
+        sets: 0,
+        reps: 0,
+        weight: "",
+        targetRPE: 0,
+        actualRPE: 0,
+        estMax: 0,
+        notes: "",
+    };
+}
+
+function changeExercise(fieldName: string, fieldValue: string, exercise: ExerciseInterface) {
+
+    switch (true) {
+        case fieldName.endsWith("category"):
+            exercise.category = fieldValue;
+            break;
+        case fieldName.endsWith("exercise_name"):
+            exercise.exercise = fieldValue;
+            break;
+        case fieldName.endsWith("sets"):
+            exercise.sets = Number(fieldValue);
+            break;
+        case fieldName.endsWith("reps"):
+            exercise.reps = Number(fieldValue);
+            break;
+        case fieldName.endsWith("weight"):
+            exercise.weight = fieldValue;
+            break;
+        case fieldName.endsWith("targetRPE"):
+            exercise.targetRPE = Number(fieldValue);
+            break;
+        case fieldName.endsWith("actualRPE"):
+            exercise.actualRPE = Number(fieldValue);
+            break;
+        case fieldName.endsWith("estMax"):
+            exercise.estMax = Number(fieldValue);
+            break;
+        case fieldName.endsWith("workout-notes"):
+            exercise.notes = fieldValue;
+            break;
+        default:
+            console.log("Dieses Feld gibt es leider nicht!");
+            break;
+    }
+}
 
 
 router.delete("/delete/:id", checkAuthenticated, async (req, res) => {
