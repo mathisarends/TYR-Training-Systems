@@ -83,7 +83,34 @@ test("reset exercises", async ({ page }) => {
 // TODO pause time for leg and biceps may be wrong test this. if pause time in legs are changed it is applied in biceps legs are not saved @all
 
 test("change values for leg exercises (edge case index = 10)", async ({ page }) => {
-    
+    await page.locator('input[name="\\31 0_7_exercise"]').click();
+    await page.locator('input[name="\\31 0_7_exercise"]').fill('Nordic Hamstring Curls');
+    await page.locator('select[name="\\31 0_categoryPauseTimeSelect"]').selectOption('180');
+    await page.locator('select[name="\\31 0_categoryDefaultRepSelect"]').selectOption('8');
+    await page.getByRole('button', { name: 'Submit' }).click();
+    await expect(page.getByText('Erfolgreich aktualisiert ×')).toBeVisible();
+
+    await page.reload();
+
+    await expect(page.locator('input[name="\\31 0_7_exercise"]')).toHaveValue('Nordic Hamstring Curls');
+    await expect(page.locator('select[name="\\31 0_categoryPauseTimeSelect"]')).toHaveValue('180');
+    await expect(page.locator('select[name="\\31 0_categoryDefaultRepSelect"]')).toHaveValue('8');
+})
+
+test("delete a bench exercise", async({ page }) => {
+    await page.locator('input[name="\\32 _7_exercise"]').click();
+    await page.locator('input[name="\\32 _7_exercise"]').fill('');
+    await page.locator('input[name="\\32 _7_exercise"]').press('Enter');
+
+    await expect(page.getByText('Erfolgreich aktualisiert ×')).toBeVisible();
+    await page.reload();
+    await expect(page.locator('input[name="\\32 _7_exercise"]')).toBeEmpty();
+})
+
+// Stelle die ursprünglichen Daten wieder her
+test.afterAll(async ({ page }) => {
+    await page.getByRole('button', { name: 'Reset' }).click();
+    await page.reload();
 })
 
 
