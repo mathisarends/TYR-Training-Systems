@@ -80,7 +80,7 @@ export async function resetUserExercises(req: Request, res: Response) {
       (user.chestExercises = chestExercises),
       (user.shoulderExercises = shoulderExercises),
       (user.bicepsExercises = bicepsExercises),
-      (user.tricepExercises = tricepExercises),
+      (user.tricepsExercises = tricepExercises),
       (user.legExercises = legExercises),
       await user.save({ overwrite: true });
 
@@ -118,7 +118,13 @@ function mapChangedDataToCategories(changedData: ApiData): { [category: string]:
 
   Object.entries(changedData).forEach(([fieldName, newValue]) => {
 
-    const categoryIndex = parseInt(fieldName.charAt(0));
+    let categoryIndex = parseInt(fieldName.charAt(0));
+    // wenn category index eine 1 ist und fieldName an zweiter stelle auch einen numerischen wert hat (z.B. bei 10) 
+    if (categoryIndex === 1 && !isNaN(parseInt(fieldName.charAt(1), 10))) {
+      const secondIndex = parseInt(fieldName.charAt(1));
+      categoryIndex = concatenateNumbers(categoryIndex, secondIndex);
+    }
+    
     const category = getAssociatedCategoryByIndex(categoryIndex);
 
     if (!changedCategoriesMap[category]) {
@@ -131,6 +137,15 @@ function mapChangedDataToCategories(changedData: ApiData): { [category: string]:
 
   return changedCategoriesMap;
 }
+
+function concatenateNumbers(num1 : number, num2 : number) {
+  const numeric1 = num1.toString();
+  const numeric2 = num2.toString();
+
+  const concatenatedString = numeric1 + numeric2;
+  return Number(concatenatedString);
+}
+
 
 /**
  * Process changes related to exercises based on the provided field name, index, new values, and user exercise field.
@@ -346,10 +361,10 @@ function getAssociatedCategoryByIndex(index: number): ExerciseCategories {
       return ExerciseCategories.CHEST;
     case 7:
       return ExerciseCategories.SHOULDER;
-    case 8:
-      return ExerciseCategories.TRICEPS;
+      case 8:
+        return ExerciseCategories.BICEPS;
     case 9:
-      return ExerciseCategories.BICEPS;
+      return ExerciseCategories.TRICEPS;
     case 10:
       return ExerciseCategories.LEGS;
     default:
@@ -389,7 +404,7 @@ export function prepareExercisesData(user: any) {
     user.chestExercises,
     user.shoulderExercises,
     user.bicepsExercises,
-    user.tricepExercises,
+    user.tricepsExercises,
     user.legExercises,
   ];
 

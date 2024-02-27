@@ -342,7 +342,7 @@ export {
   chestExercises,
   backExercises,
   shoulderExercises,
-  bicepsExercises,
   tricepExercises,
+  bicepsExercises,
   legExercises
 }

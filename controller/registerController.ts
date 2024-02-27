@@ -129,11 +129,11 @@ export async function handleRegisterPost(req: Request, res: Response) {
       benchExercises: benchExercises,
       deadliftExercises: deadliftExercises,
       overheadpressExercises: overheadpressExercises,
-      backExercises: backExercises,
       chestExercises: chestExercises,
+      backExercises: backExercises,
       shoulderExercises: shoulderExercises,
+      tricepsExercises: tricepExercises,
       bicepsExercises: bicepsExercises,
-      tricepExercises: tricepExercises,
       legExercises: legExercises,
     });
 
