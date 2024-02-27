@@ -118,13 +118,8 @@ function mapChangedDataToCategories(changedData: ApiData): { [category: string]:
 
   Object.entries(changedData).forEach(([fieldName, newValue]) => {
 
-    let categoryIndex = parseInt(fieldName.charAt(0));
-    // wenn category index eine 1 ist und fieldName an zweiter stelle auch einen numerischen wert hat (z.B. bei 10) 
-    if (categoryIndex === 1 && !isNaN(parseInt(fieldName.charAt(1), 10))) {
-      const secondIndex = parseInt(fieldName.charAt(1));
-      categoryIndex = concatenateNumbers(categoryIndex, secondIndex);
-    }
-    
+    let categoryIndex : number = isCategoryIndexAboveTen(fieldName) ? concatenateNumbers(Number(fieldName.charAt(0)), Number(fieldName.charAt(1))) : Number(fieldName.charAt(0))
+
     const category = getAssociatedCategoryByIndex(categoryIndex);
 
     if (!changedCategoriesMap[category]) {
@@ -144,6 +139,13 @@ function concatenateNumbers(num1 : number, num2 : number) {
 
   const concatenatedString = numeric1 + numeric2;
   return Number(concatenatedString);
+}
+
+function isCategoryIndexAboveTen(fieldName : string) {
+  const tensPlaces = Number(fieldName.charAt(0));
+  const onesPlaces = Number(fieldName.charAt(1));
+
+  return tensPlaces && !isNaN(onesPlaces);
 }
 
 
@@ -168,7 +170,7 @@ function processExerciseChanges(
 
   if (isExercise(fieldName)) { // means that the exercise name was changed or a new exercise was added
 
-    const exerciseIndex = parseInt(fieldName.charAt(2));
+    let exerciseIndex : number = isCategoryIndexAboveTen(fieldName) ?  Number(fieldName.charAt(3)) : Number(fieldName.charAt(2));
 
     if  (exerciseIndex >= userExerciseField.length) { // if it is a new Exercise push it to array
       const exerciseCategoryMetaInfo = getCategoryInfoFromList(userExerciseField)!;

@@ -1,6 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
 import { login } from './profileLogin';
-import exp from 'constants';
 
 
 test.beforeEach(async ({ page }) => {
@@ -83,9 +82,9 @@ test("reset exercises", async ({ page }) => {
 
 // TODO pause time for leg and biceps may be wrong test this. if pause time in legs are changed it is applied in biceps legs are not saved @all
 
-/* test("change some random values of each category and check if there are saved", async ({ page }) => {
-
-}) */
+test("change values for leg exercises (edge case index = 10)", async ({ page }) => {
+    
+})
 
 
 
